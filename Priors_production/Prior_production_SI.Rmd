@@ -43,17 +43,18 @@ m_locus=as.data.frame(m_locus)
 for (i in 1:10000){#tirage des priors demographiques
 #variables demographique modéle SI
 #Param_demo (3) =   Ts, N1, N2,
-Ts<-rlunif(1,100,100000)#bound=[100-100000]
-N1<-rlunif(1,100,1000000)#bound=[100-1000000]
-N2<-rlunif(1,100,1000000)#bound=[100-1000000]
-Na<-rlunif(1,100,1000000)#bound=[100-1000000]
+  Ts<-rlunif(1,100,1E+8)#bound=[1,100,1E+8]
+  N1<-rlunif(1,100,1E+6)#bound=[100,1E+6]
+  N2<-rlunif(1,100,1E+6)#bound=[100,1E+6]
+  Na<-rlunif(1,100,1E+6)#Bound=[100,1E+6]
+
  
 #print( N1, N2, Ts)
 m_demo=matrix(c(Ts,N1,N2,Na),ncol=4)
 m_demo=as.data.frame(m_demo)
 locus<-cbind(m_locus,m_demo)
 
-path <- "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/Priors_SI_10000/priorSI-" 
+path <- "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/Priors_SI_10000/priorsSI" 
 write.table(locus,file= paste(path,i, sep="-"),col.names=FALSE,row.names =FALSE)
 }
 ```
