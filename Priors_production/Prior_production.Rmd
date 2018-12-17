@@ -1,0 +1,55 @@
+---
+title: "Priors_production"
+author: "karine Durand"
+date: "23 octobre 2018"
+output: html_document
+#<!--ABC-->
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## production des priors SI
+
+``
+
+####mon_script
+```{r}
+######partie locus 
+#variables locus
+#-L=taille du gene
+#-t=theta
+#-r=rho
+#-delta=taille du track recombinant
+#boucle de 1000000 iterations(1000000 tirage demographique)
+demo<-NULL
+locus<-NULL
+tbs<-NULL
+#####TIRER un prior locus dans une distribution uniforme de bornes 
+L<-round(runif(1368,100,2500))#bound_taille du gene[100-2500]
+t<-runif(1368,0, 0.0003 )#bound_theta=[0-0.0003]bornes pour 13pauca_multiplex
+r<-runif(1368,0.00000005,0.0005)##bound_rho=[0.00000005,0.0005]
+delta<-round(runif(1368,10, 1000))#bound=[10-1000]
+#print(L,t,r,delta)
+m_locus=matrix(c(L,t,r,delta),ncol=4)
+m_locus=as.data.frame(m_locus)
+
+for (i in 1:100){#tirage des priors demographiques
+#variables demographique modéle SI
+#Param_demo (3) =   Ts, N1, N2,
+Ts<- rlunif(1,10,1000)#loi loguniforme bound=[10-1000]
+N1<-rlunif(1,10,1000000)#bound=[10,1000000]
+N2<-rlunif(1,10,1000000)#bound=[10,1000000]
+
+#print( N1, N2, Ts)
+m_demo=matrix(c(Ts,N1,N2),ncol=3)
+m_demo=as.data.frame(m_demo)
+locus<-cbind(m_locus,m_demo)
+
+path <- "/home//kadurand/partage_windows/Xylella/analyses_genomiques/Priors_SI/locus" 
+write.table(locus,file= paste(path,i, sep="-"),col.names=FALSE,row.names =FALSE)
+}
+```
+
