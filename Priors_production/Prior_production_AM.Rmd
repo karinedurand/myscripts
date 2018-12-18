@@ -46,8 +46,9 @@ for (i in 1:10000){#tirage des priors demographiques
   M12<-runif(1,0.01,30)#bound=[0.01-30]
   M21<-runif(1,0.01,30)#bound=[0.01-30]
   Tam<-rlunif(1,100,Ts)#)#bound=[0-100]
+  TS2=Ts+0.1
   #print( Ts , N1, N2,  M12, M21,Tam)
-m_demo=matrix(c(Ts,N1,N2,Na,M12,M21,Tam),ncol=7)
+m_demo=matrix(c(Ts,N1,N2,Na,M12,M21,Tam,TS2),ncol=8)
 m_demo=as.data.frame(m_demo)
 locus<-cbind(m_locus,m_demo)
 
