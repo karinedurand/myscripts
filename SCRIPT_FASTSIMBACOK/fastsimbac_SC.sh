@@ -6,6 +6,7 @@
 # λ length of recombining intervals
 #N1 size pop1
 #N2 size pop2
+
 #Ts time scale of split SC
 for i in `cat listems`
 do while read line 
