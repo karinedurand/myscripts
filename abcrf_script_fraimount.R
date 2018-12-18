@@ -31,7 +31,7 @@ setwd("/pathway_for_my_working_directory/")
 #obtained through your own compilation) for linux 28
 
 # STEP 3 - Convert the reftable.bin file into a reftable.txt file (cf. reference table file with a txt format) that will be ready
-to use by the present R script
+#to use by the present R script
 # To do that, open a terminal, go to your working directory and write the following instruction:
 # In a linux OS write: ./ diyabc_core-2.1.0-linux-i386 -p ./ -x
 # In a windows OS write: diyabc_core-2.1.0-win.exe -p ./ -x
@@ -84,7 +84,7 @@ for(scen in scenarios)
 if(ncol(param[[scen]])<max.param.dim)
 param[[scen]]=cbind(param[[scen]],matrix(NA,nrow=nrow(param[[scen]]),ncol=max.param.dim-ncol(param[[scen]])))
 }
-29mes.param=data.frame()
+mes.param=data.frame()
 for(scen in scenarios)
 {
 colnames(param[[scen]])=1:max.param.dim
@@ -272,7 +272,7 @@ duration
 rm(list=ls())
 # END OF COMPUTATION: Open and edit the output file (output_file_name as defined above) which contains the
 #numerical results of the ABC RF analyses: for each analysis outputs are presented as following: Nref Statobs_row_ID
-B#est_scenario Posterior_probability vote_scen1 vote_scen2 vote_scen3 vote_scen4 Prior_error_rate
+#Best_scnario Posterior_probability vote_scen1 vote_scen2 vote_scen3 vote_scen4 Prior_error_rate
 
 
 
@@ -336,7 +336,7 @@ Nref= c(20000,30000,40000)
 ntrees_in_forest=500
 # Name and structure of the output file that will summarize numerical results for all successive RF analyses
 # Outputs for each analysis are presented as following: Nref Statobs_row_ID Best_scenario Posterior_probability
-vote_scen1 vote_scen2 vote_scen3 vote_scen4 Prior_error_rate
+#vote_scen1 vote_scen2 vote_scen3 vote_scen4 Prior_error_rate
 output_file_name <- "output_RF.txt"
 output <- data.frame(matrix(ncol=nscenarios+5))
 options(digits=4)
