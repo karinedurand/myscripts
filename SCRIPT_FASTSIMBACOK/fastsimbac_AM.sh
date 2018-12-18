@@ -13,9 +13,9 @@ while read line
   M12=`echo $line | cut -d" " -f9`
   M21=`echo $line | cut -d" " -f10`
   Tam=`echo $line | cut -d" " -f11`
-  TS2=`TS+1E-10`
+  TS2=`echo $line | cut -d" " -f12`
   echo   ./fastSimBac 30 $L -T -t $t -r $r $delta -I 2 13 17  -ej $TS 1 2 -eN $TS $Na > line
-    ./fastSimBac 30 $L  -t $t -r $r $delta -I 2 13 17 0 -m 1 2 0 -m 2 1 0 -n  1 $N1  -n 2 $N2 -ema $Tam 2 0  $M12 $M21 0  -ej $TS 1 2  -eN $TS $Na | ./msformatter >temp2 
+    ./fastSimBac 30 $L  -t $t -r $r $delta -I 2 13 17 0 -m 1 2 0 -m 2 1 0 -n  1 $N1  -n 2 $N2 -ema $Tam 2 0  $M12 $M21 0  -ej $TS 1 2  -eN $TS2 $Na | ./msformatter >temp2 
 if test -s temp2
 then 
 echo "temp2" >>log
