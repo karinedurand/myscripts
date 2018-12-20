@@ -1,4 +1,5 @@
 #!/bin/bash
+module load bioinfo/fastsimbac-bd3ad13
 for i in `cat listems`
 do
 while read line 
