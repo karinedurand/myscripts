@@ -24,7 +24,7 @@ M12=`echo $line | cut -d" " -f9`
 M21=`echo $line | cut -d" " -f10`
 TS2=`echo $line | cut -d" " -f11`
 echo ./fastSimBac 30 $L  -t $t -r $r $delta  -I 2 13 17  -n 1 $N1 -n 2 $N2   -m  1 2  $M12  -m  2 1  $M21 -ej $TS 1 2 -eN $TS2 $Na >line
-   ./fastSimBac 30 $L  -t $t -r $r $delta  -I 2 13 17   -n 1 $N1 -n 2 $N2   -m  1 2  $M12  -m  2 1  $M21 -ej $TS 1 2 -eN $TS2 $Na  | ./msformatter >temp2 
+   fastSimBac 30 $L  -t $t -r $r $delta  -I 2 13 17   -n 1 $N1 -n 2 $N2   -m  1 2  $M12  -m  2 1  $M21 -ej $TS 1 2 -eN $TS2 $Na  | msformatter >temp2 
 if test -s temp2
 then 
 echo "temp2" >>log
