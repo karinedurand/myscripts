@@ -48,8 +48,9 @@ for (i in 1:10000){#tirage des priors demographiques
   M12<-runif(1,0.01,30)#bound=[0.01-30]
   M21<-runif(1,0.01,30)#bound=[0.01-30]
   Tsc<-rlunif(1,10,Ts)#bound=[0-100]borne sup <Ts
+  TS2=Ts+(Ts/1E+6)
   #print( Ts,  N1, N2,  M12, M21, Tsc)
-  m_demo=matrix(c(Ts,N1,N2,Na,M12,M21,Tsc),ncol=7)
+  m_demo=matrix(c(Ts,N1,N2,Na,M12,M21,Tsc,TS2),ncol=8)
   m_demo=as.data.frame(m_demo)
   locus<-cbind(m_locus,m_demo)
     path <- "/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/Priors_SC_10000/PriorsSC"
