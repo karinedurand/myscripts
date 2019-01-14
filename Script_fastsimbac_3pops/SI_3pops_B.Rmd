@@ -1,0 +1,59 @@
+---
+title: "SI_3pops_B"
+author: "karine Durand"
+date: "14 janvier 2019"
+output: html_document
+---
+
+
+## R Markdown
+
+#Script pour model A 3pops.  1- pauca ST53
+#                            2- pauca CVC
+#                            3- multiplex
+#modéle dans lequel pauca CVC a comme ancetre pauca ST53       
+
+#!/bin/bash
+module load bioinfo/fastsimbac-bd3ad13
+#export LD_LIBRARY_PATH=/root/Priors_IM_10000/myParadigmLib/usr/lib/x86_64-linux-gnu
+#IM
+####Param_demo (5) =  M12, M21, M23, M32, M13, M31, N1, N2, N3, Ts1, Ts2
+#L locus lengh
+#t theta
+#r rho
+# λ length of recombining intervals
+#N1 size pop1
+#N2 size pop2
+#Ts time scale of split
+for i in `cat listems`
+do while read line 
+do L=`echo $line |cut -d" " -f1`
+t=`echo $line |cut -d" " -f2`
+r=`echo $line |cut -d" " -f3`
+delta=`echo $line |cut -d" " -f4`
+TS1=`echo $line |cut -d" " -f5`
+TS2=`echo $line |cut -d" " -f6`
+N1=`echo $line |cut -d" " -f6`
+N2=`echo $line |cut -d" " -f7`
+N3=`echo $line |cut -d" " -f8`
+M12=`echo $line | cut -d" " -f9`
+M21=`echo $line | cut -d" " -f10`
+M23=`echo $line | cut -d" " -f11`
+M32=`echo $line | cut -d" " -f12`
+M31=`echo $line | cut -d" " -f13`
+M13=`echo $line | cut -d" " -f14`
+
+echo ./fastSimBac 30 $L  -t $t -r $r $delta  -I 3 6 13 17  -n 1 $N1 -n 2 $N2 -n 3 $N3   -m  1 2  $M12  -m  2 1  $M21  -m  2 3 $M23  -m  3 2   $M32  -m  3 1 $M31  -m  1 3   $M13 -ej $TS1 2 1 -ej $TS2 3 1   >line
+   fastSimBac 30 $L  -t $t -r $r $delta  -I 3 6 13 17  -n 1 $N1 -n 2 $N2 -n 3 $N3   -m  1 2  $M12  -m  2 1  $M21  -m  2 3 $M23  -m  3 2   $M32  -m  3 1 $M31  -m  1 3   $M13  -ej $TS1 2 1 -ej $TS2 3 1 | msformatter >temp2 
+if test -s temp2
+then 
+echo "temp2" >>log
+cat  line temp2  >> $i.ms
+else
+cat line segsite >>  $i.ms
+fi
+done< $i
+done
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
