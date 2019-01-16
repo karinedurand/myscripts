@@ -3,8 +3,8 @@ title: "Priors_SC"
 author: "karine Durand"
 date: "24 octobre 2018"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -30,13 +30,14 @@ demo<-NULL
 locus<-NULL
 tbs<-NULL
 #####TIRER un prior locus dans une distribution uniforme de bornes 
-L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/1368oRTHOLOGUES_summarystats/lenght")#vraie taille des gènes
-t<--runif(1368,0, 0.001)#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
-r<-runif(1368,0,0.001)#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/1368oRTHOLOGUES_summarystats/lenght")#bound_taille du gene[100-2500]
+t<-runif(1368,0, 0.001 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+r<-runif(1368,0,0.001)##bound_rho=[0,0.0006]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
 delta<-round(runif(1368,10, 1000))#bound=[10-1000]
 #print(L,t,r,delta)
 m_locus=matrix(c(L,t,r,delta),ncol=4)
 m_locus=as.data.frame(m_locus)
+
 
 for (i in 1:10000){#tirage des priors demographiques
   #variables demographique modéle SC
