@@ -2,7 +2,9 @@
 title: "SI_3pops_B"
 author: "karine Durand"
 date: "14 janvier 2019"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 

@@ -13,7 +13,7 @@ while read line
   Na=`echo $line |cut -d" " -f8`
   TS2=`echo $line |cut -d" " -f9`
   echo   ./fastSimBac 30 $L -T -t $t -r $r $delta -I 2 13 17  -ej $TS 1 2  -eN $TS2 $Na > line
-    ./fastSimBac 30 $L -T -t $t -r $r $delta -I 2 13 17  -ej $TS 1 2  -eN $TS2 $Na | ./msformatter >temp2 
+    ./fastSimBac 30 $L -T -t $t -r $r $delta -I 2 13 17 -n 1 $N1 -n 2 $N2 -ej $TS 1 2  -eN $TS2 $Na | ./msformatter >temp2 
 if test -s temp2
 then 
 echo "temp2" >>log
