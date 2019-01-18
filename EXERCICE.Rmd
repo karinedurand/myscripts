@@ -1,0 +1,53 @@
+---
+title: "EXERCICE"
+author: "karine Durand"
+date: "18 janvier 2019"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+``{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## En demandant à la lib maths
+
+Mon ordinateur m’indique que π vaut *approximativement*
+
+```{r cars}
+pi
+```
+
+## En utilisant la méthode des aiguilles de Buffon
+
+Mais calculé avec la **méthode** des [aiguilles de Buffon](https://fr.wikipedia.org/wiki/Aiguille_de_Buffon), on obtiendrait comme **approximation** :
+
+```{r pressure, echo=TRUE}
+set.seed(42)
+N = 100000
+x = runif(N)
+theta = pi/2*runif(N)
+2/(mean(x+sin(theta)>1))
+```
+
+
+## Avec un argument “fréquentiel” de surface
+
+Sinon, une méthode plus simple à comprendre et ne faisant pas intervenir d’appel à la fonction sinus se base sur le fait que si X∼U(0,1) et Y∼U(0,1) alors P[X2+Y2≤1]=π/4 voir [méthode de Monte Carlo sur Wikipedia](https://fr.wikipedia.org/wiki/M%C3%A9thode_de_Monte-Carlo#D%C3%A9termination_de_la_valeur_de_%CF%80). Le code suivant illustre ce fait:
+
+```{r pressure, echo=TRUE}
+set.seed(42)
+N = 1000
+df = data.frame(X = runif(N), Y = runif(N))
+df$Accept = (df$X**2 + df$Y**2 <=1)
+library(ggplot2)
+ggplot(df, aes(x=X,y=Y,color=Accept)) + geom_point(alpha=.2) + coord_fixed() + theme_bw()
+```
+
+Il est alors aisé d’obtenir une approximation (pas terrible) de π en comptant combien de fois, en moyenne, X2+Y2 est inférieur à 1:
+
+```{r pressure, echo=TRUE}
+4*mean(df$Accept)
+```
+
