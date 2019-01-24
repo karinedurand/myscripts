@@ -33,8 +33,8 @@ locus<-NULL
 tbs<-NULL
 #####TIRER un prior locus dans une distribution uniforme de bornes 
 #L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/1368oRTHOLOGUES_summarystats/lenght")#bound_taille du gene[100-2500]
-t<-runif(1,0, 0.001 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
-r<-runif(1,0,0.0005)##bound_rho=[0,0.0006]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+t<-runif(1,1E-11, 0.001 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+r<-runif(1,0,0.0001)##bound_rho=[0,0.0006]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
 delta<-round(runif(1,10, 1000))#bound=[10-1000]
 #print(L,t,r,delta)
 m_locus=matrix(c(t,r,delta),ncol=3)
