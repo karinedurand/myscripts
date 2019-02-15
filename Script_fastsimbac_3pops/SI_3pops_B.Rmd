@@ -16,7 +16,7 @@ output:
 #modéle dans lequel pauca CVC a comme ancetre pauca ST53       
 
 #!/bin/bash
-module load bioinfo/fastsimbac-bd3ad13
+#module load bioinfo/fastsimbac-bd3ad13
 #export LD_LIBRARY_PATH=/root/Priors_IM_10000/myParadigmLib/usr/lib/x86_64-linux-gnu
 #IM
 ####Param_demo (5) =   N1, N2, N3, Ts1, Ts2
@@ -27,30 +27,15 @@ module load bioinfo/fastsimbac-bd3ad13
 #N1 size pop1
 #N2 size pop2
 #Ts time scale of split
-for i in `cat listems`
-do while read line 
+while read line 
 do L=`echo $line |cut -d" " -f1`
 t=`echo $line |cut -d" " -f2`
-r=`echo $line |cut -d" " -f3`
-delta=`echo $line |cut -d" " -f4`
-TS1=`echo $line |cut -d" " -f5`
-TS2=`echo $line |cut -d" " -f6`
-N1=`echo $line |cut -d" " -f6`
-N2=`echo $line |cut -d" " -f7`
-N3=`echo $line |cut -d" " -f8`
+TS1=`echo $line |cut -d" " -f3`
+TS2=`echo $line |cut -d" " -f4`
+N2=`echo $line |cut -d" " -f5`
+N3=`echo $line |cut -d" " -f6`
+Na=`echo $line |cut -d" " -f7`
 
+ ./msnsam 30 1  -t $t -r 0 $L  -I 3 6 13 17 0  -n 1 1 -n 2 $N2 -n 3 $N3  -ej $TS1 2 1 -ej $TS2 3 1 -eN $TS2 $Na  >>$1.ms
 
-echo ./fastSimBac 30 $L  -t $t -r $r $delta  -I 3 6 13 17 0 -n 1 $N1 -n 2 $N2 -n 3 $N3   -ej $TS1 2 1 -ej $TS2 3 1   >line
-   fastSimBac 30 $L  -t $t -r $r $delta  -I 3 6 13 17 0  -n 1 $N1 -n 2 $N2 -n 3 $N3  -ej $TS1 2 1 -ej $TS2 3 1 | msformatter >temp2 
-if test -s temp2
-then 
-echo "temp2" >>log
-cat  line temp2  >> $i.ms
-else
-cat line segsite >>  $i.ms
-fi
-done< $i
-done
-
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+done< $1
