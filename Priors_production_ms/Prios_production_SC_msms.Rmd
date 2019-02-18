@@ -32,7 +32,7 @@ tbs<-NULL
 #####TIRER un prior locus dans une distribution uniforme de bornes 
 #L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/1368oRTHOLOGUES_summarystats/lenght")#bound_taille du gene[100-2500]
 L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/msms/lenght")#bound_taille du gene[100-2500]
-t<-runif(997,1E-11, 0.001 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+t<-runif(997,1E-6, 0.01 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
 r<-runif(997,0,0.0001)#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
 delta<-round(runif(997,10, 1000))#bound=[10-1000]
 #print(L,t,r,delta)
@@ -54,7 +54,7 @@ for (i in 1:10000){#tirage des priors demographiques
   m_demo=matrix(c(Ts,N2,Na,M12,M21,Tsc),ncol=6)
   m_demo=as.data.frame(m_demo)
   locus<-cbind(m_locus,m_demo)
-    path <- "/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/msms/Priors_SC_msms/SC"
+    path <- "/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/msms/Priors_SC_msms_mod/SC"
     write.table(locus,file= paste(path,i, sep="-"),col.names=FALSE,row.names =FALSE)
 }
 ```
