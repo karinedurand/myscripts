@@ -34,7 +34,7 @@ N2=`echo $line |cut -d" " -f7`
 N3=`echo $line |cut -d" " -f8`
 p2=`echo $line |cut -d" " -f9`
 
-  ./msnsam 30 1   -t $t -r 0 $L  -I 3 6 13 17 0  -n 1 1 -n 2 $N2 -n 3 $N3 -es $Ta 2 $p2 -ej $Ta 2 1 -ej $Ta 4 3 -ej $TS 3 1 -eN >>$1.ms
+  ./msnsam 30 1   -t $t -r 0 $L  -I 3 6 13 17 0  -n 1 1 -n 2 $N2 -n 3 $N3 -es $Ta 2 $p2 -ej $Ta 2 1 -ej $Ta 4 3 -ej $TS 3 1 -eN $TS $Na >>$1.ms
 done< $i
 done
 

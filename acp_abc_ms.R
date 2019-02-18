@@ -58,7 +58,7 @@ nlinesFul=min(nrow(IM1), nrow(IM2), nrow(IM3), nrow(IM4),
               nrow(SC1), nrow(SC2), nrow(SC3), nrow(SC4))
 
 #keep only usefull stats 
-IM1b=IM1[c(1:nlinesFul),-c(1:3,12,13,18:25)]
+
 IM2b=IM2[c(1:nlinesFul),-c(1:3,12,13,18:25)]
 IM3b=IM3[c(1:nlinesFul),-c(1:3,12,13,18:25)]
 IM4b=IM4[c(1:nlinesFul),-c(1:3,12,13,18:25)]
@@ -72,6 +72,7 @@ AM3b=AM3[c(1:nlinesFul),-c(1:3,12,13,18:25)]
 AM4b=AM4[c(1:nlinesFul),-c(1:3,12,13,18:25)]
 SI1b=SI1[c(1:nlinesFul),-c(1:3,12,13,18:25)]
 SI3b=SI3[c(1:nlinesFul),-c(1:3,12,13,18:25)]
+IM1b=IM1[c(1:nlinesFul),-c(1:3,12,13,18:25)]
 
 #observed stats
 target=target[-c(1:3,12,13,18:25)]
@@ -81,28 +82,61 @@ obs=matrix(rep(target[1:19],1), byrow=T, nrow=1)
 summaryIM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summaryIM", col_names = FALSE)
 summarySC <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summarySC", col_names = FALSE)
 summarystatAM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summarystatAM",  col_names = FALSE)
+SUMMARYsi <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/SUMMARYsi", col_names = FALSE)
+obs <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/obs.txt",  col_names = FALSE)
+
+#NE PAS RAJOUTER DE FACTEUR
 scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/im.csv",what=character(),sep="\t" )->summaryIM$X1
 scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/AM.csv",what=character(),sep="\t" )->summarystatAM$X1
 scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/SC.csv",what=character(),sep="\t" )->summarySC$X1
+scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/si.csv",what=character(),sep="\t" )->SUMMARYsi$X1
+
 View(summaryIM)
 View(summarySC)
 View(summarystatAM)
+View(SUMMARYsi)
+View(obs)
+### ENLEVER LES na
+f <- function(x){
+  m <- mean(x, na.rm = TRUE)
+  x[is.na(x)] <- m
+  x
+}
 
+summaryIM<- apply(summaryIM, 2, f)
+summarySC <- apply(summarySC, 2, f)
+summarystatAM <- apply(summarystatAM, 2, f)
+SUMMARYsi <- apply(SUMMARYsi , 2, f)
+View(summaryIM)
+View(summarySC)
+View(summarystatAM)
+View(SUMMARYsi)
+View(obs)
+
+
+#min number of sim
+nlinesFul=min(nrow(summaryIM), nrow(summarySC), nrow(summarystatAM), nrow(SUMMARYsi))
 reduce = nlinesFul/500 #reduction factor to not keep all sims
 
-x <- as.factor(c(rep("SI",reduce),
-        rep("IM",reduce),
-        rep("AM",reduce),
-        rep("SC",reduce), 
+x <- as.factor(c(rep("summaryIM",reduce),
+        rep("summarySC",reduce),
+        rep("summarystatAM",reduce),
+        rep("SUMMARYsi",reduce), 
         rep("obs",1))) 
-        
-z=rbind(SI1b[1:reduce,],
-    IM4b[1:reduce,],
-    AM4b[1:reduce,],
-    SC4b[1:reduce,])
+View(x)       
+#z=rbind(SI1b[1:reduce,],
+#    IM4b[1:reduce,],
+#    AM4b[1:reduce,],
+#    SC4b[1:reduce,])
 
+z=rbind(summaryIM[1:reduce,],
+        summarySC[1:reduce,],
+        summarystatAM[1:reduce,],
+        SUMMARYsi[1:reduce,])
+View(z)
 data=(as.data.frame(rbind(z,obs)))
-couleur <- c("red","blue","green","black","yellow","darkred")
+View(data)
+couleur <- c("red","blue","green","black","yellow")
 
 acp1 <- dudi.pca(data,scannf=F,nf=2)
 
