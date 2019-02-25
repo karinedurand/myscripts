@@ -10,6 +10,7 @@ if("ade4" %in% rownames(installed.packages()) == FALSE)
 
 library(data.table)
 library(ade4)
+library(readr)
 
 target=as.numeric(read.table("00.data/OBS.ABC.stat.txt",skip=2,h=F))
 
@@ -78,28 +79,30 @@ target=target[-c(1:3,12,13,18:25)]
 obs=matrix(rep(target[1:19],1), byrow=T, nrow=1)
 
 ###IMPORTDATA
-summaryIM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summaryIM", col_names = FALSE)
-summarySC <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summarySC", col_names = FALSE)
+summaryIM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summarystat_IM6", col_names = FALSE)
+summarySC <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summarystat_SC6", col_names = FALSE)
 summarystatAM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summarystatAM",  col_names = FALSE)
-scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/im.csv",what=character(),sep="\t" )->summaryIM$X1
-scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/AM.csv",what=character(),sep="\t" )->summarystatAM$X1
-scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/SC.csv",what=character(),sep="\t" )->summarySC$X1
+obs <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/obs.txt",  col_names = FALSE)
+#scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/im.csv",what=character(),sep="\t" )->summaryIM$X1
+#scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/AM.csv",what=character(),sep="\t" )->summarystatAM$X1
+#scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/SC.csv",what=character(),sep="\t" )->summarySC$X1
 View(summaryIM)
 View(summarySC)
 View(summarystatAM)
 
-reduce = nlinesFul/500 #reduction factor to not keep all sims
+nlinesFul=min(nrow(summaryIM), nrow(summarySC))
 
-x <- as.factor(c(rep("SI",reduce),
-        rep("IM",reduce),
-        rep("AM",reduce),
-        rep("SC",reduce), 
+
+reduce = nlinesFul/500 #reduction factor to not keep all sims
+reduce = nlinesFul/1 #reduction factor to not keep all sims
+
+
+x <- as.factor(c(rep("summaryIM",reduce),
+        rep("summarySC",reduce),
         rep("obs",1))) 
         
-z=rbind(SI1b[1:reduce,],
-    IM4b[1:reduce,],
-    AM4b[1:reduce,],
-    SC4b[1:reduce,])
+z=rbind(summaryIM[1:reduce,],
+        summarySC[1:reduce,])
 
 data=(as.data.frame(rbind(z,obs)))
 couleur <- c("red","blue","green","black","yellow","darkred")

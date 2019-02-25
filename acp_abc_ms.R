@@ -10,6 +10,7 @@ if("ade4" %in% rownames(installed.packages()) == FALSE)
 
 library(data.table)
 library(ade4)
+library(readr)
 
 target=as.numeric(read.table("00.data/OBS.ABC.stat.txt",skip=2,h=F))
 
@@ -103,8 +104,8 @@ f <- function(x){
   x
 }
 
-summaryIM<- apply(summaryIM, 2, f)
-summarySC <- apply(summarySC, 2, f)
+summaryIM<- apply(summary_IM_mod4, 2, f)
+summarySC <- apply(symmary_SC_mod4, 2, f)
 summarystatAM <- apply(summarystatAM, 2, f)
 SUMMARYsi <- apply(SUMMARYsi , 2, f)
 View(summaryIM)
@@ -116,12 +117,12 @@ View(obs)
 
 #min number of sim
 nlinesFul=min(nrow(summaryIM), nrow(summarySC), nrow(summarystatAM), nrow(SUMMARYsi))
-reduce = nlinesFul/500 #reduction factor to not keep all sims
+reduce = nlinesFul/1 #reduction factor to not keep all sims
 
 x <- as.factor(c(rep("summaryIM",reduce),
         rep("summarySC",reduce),
-        rep("summarystatAM",reduce),
-        rep("SUMMARYsi",reduce), 
+       # rep("summarystatAM",reduce),
+      #  rep("SUMMARYsi",reduce), 
         rep("obs",1))) 
 View(x)       
 #z=rbind(SI1b[1:reduce,],
@@ -130,13 +131,13 @@ View(x)
 #    SC4b[1:reduce,])
 
 z=rbind(summaryIM[1:reduce,],
-        summarySC[1:reduce,],
+        summarySC[1:reduce,]
         summarystatAM[1:reduce,],
         SUMMARYsi[1:reduce,])
 View(z)
 data=(as.data.frame(rbind(z,obs)))
 View(data)
-couleur <- c("red","blue","green","black","yellow")
+couleur <- c("red","blue","black","yellow","orange")
 
 acp1 <- dudi.pca(data,scannf=F,nf=2)
 

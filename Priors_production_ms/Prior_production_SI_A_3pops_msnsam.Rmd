@@ -56,7 +56,7 @@ m_demo=matrix(c(Ts1,Ts2,N2,N3,Na),ncol=5)
 m_demo=as.data.frame(m_demo)
 locus<-cbind(m_locus,m_demo)
 
-path <- "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/msms/Priors_SI_msms/SI" 
+path <- "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/msms//SI_A" 
 write.table(locus,file= paste(path,i, sep="-"),col.names=FALSE,row.names =FALSE)
 }
 ```
