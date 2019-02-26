@@ -96,6 +96,14 @@ nlinesFul=min(nrow(summaryIM), nrow(summarySC))
 reduce = nlinesFul/500 #reduction factor to not keep all sims
 reduce = nlinesFul/1 #reduction factor to not keep all sims
 
+#replace missing by means
+f <- function(x){
+  m <- mean(x, na.rm = TRUE)
+  x[is.na(x)] <- m
+  x
+}
+summaryIM <- apply(summaryIM, 2, f)
+summarySC <- apply(summarySC, 2, f)
 
 x <- as.factor(c(rep("summaryIM",reduce),
         rep("summarySC",reduce),

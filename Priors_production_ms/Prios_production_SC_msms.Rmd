@@ -36,7 +36,7 @@ t<-runif(997,1E-6, 0.01 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multipl
 r<-runif(997,0,0.01)#bound_rho=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
 delta<-round(runif(997,10, 1000))#bound=[10-1000]
 #print(L,t,r,delta)
-m_locus=matrix(c(L,t,r,delta),ncol=4)
+m_locus=matrix(c(L,t*L,r*L,delta),ncol=4)
 m_locus=as.data.frame(m_locus)
 
 for (i in 1:1000){#tirage des priors demographiques
