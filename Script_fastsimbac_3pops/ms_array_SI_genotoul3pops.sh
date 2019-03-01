@@ -14,6 +14,6 @@ while read line
   Na=`echo $line |cut -d" " -f9`
   
   
-    ./ms 30 1  -t $t -r $r $L  -I 3 17 13 6 0  -n 1 $N1 -n 2 $N2 -n 3 $N3  -ej $TS1 2 3 -ej $TS2 3 1 -eN $TS2 $Na  >>$SLURM_ARRAY_TASK_ID.ms
+    ms 36 1  -t $t -r $r $L  -I 3 17 13 6 0  -n 1 $N1 -n 2 $N2 -n 3 $N3  -ej $TS2 2 3 -ej $TS1 3 1 -eN $TS2 $Na  >>$SLURM_ARRAY_TASK_ID.ms
     
 done< SI_A-$SLURM_ARRAY_TASK_ID 
