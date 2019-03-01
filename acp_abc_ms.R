@@ -80,7 +80,13 @@ target=target[-c(1:3,12,13,18:25)]
 obs=matrix(rep(target[1:19],1), byrow=T, nrow=1)
 
 ###IMPORTDATA
-summaryIM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summaryIM", col_names = FALSE)
+sumfastalnSI <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_sur_alignement/statistiquefastSimbac_1712736bp/summary_fastSI", col_names = FALSE)
+sumfastalnAM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_sur_alignement/statistiquefastSimbac_1712736bp/summary_fastAM", col_names = FALSE)
+sumfastalnSC <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_sur_alignement/statistiquefastSimbac_1712736bp/summary_fastSC", col_names = FALSE)
+sumfastalnIM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_sur_alignement/statistiquefastSimbac_1712736bp/summary_fastIM", col_names = FALSE)
+obsfast <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_sur_alignement/statistiquefastSimbac_1712736bp/obs.txt",  col_names = FALSE)
+
+
 summarySC <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summarySC", col_names = FALSE)
 summarystatAM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summarystatAM",  col_names = FALSE)
 SUMMARYsi <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/SUMMARYsi", col_names = FALSE)
@@ -103,9 +109,21 @@ f <- function(x){
   x[is.na(x)] <- m
   x
 }
+sumfastalnSI<- apply(sumfastalnSI, 2, f)
+sumfastalnSC<- apply(sumfastalnSC, 2, f)
+sumfastalnAM<- apply(sumfastalnAM, 2, f)
+sumfastalnIM<- apply(sumfastalnIM, 2, f)
 
-summaryIM<- apply(summary_IM_mod4, 2, f)
-summarySC <- apply(symmary_SC_mod4, 2, f)
+sumfastalnSI=sumfastalnSI[c(1:nlinesFul),c(1:39)]
+sumfastalnSC=sumfastalnSC[c(1:nlinesFul),c(1:39)]
+sumfastalnAM=sumfastalnAM[c(1:nlinesFul),c(1:39)]
+sumfastalnIM=sumfastalnIM[c(1:nlinesFul),c(1:39)]
+obsfast=obsfast[c(1:1),c(1:39)]
+
+
+
+summaryIM<- apply(summary_IM5, 2, f)
+summarySC <- apply(summary_SC5, 2, f)
 summarystatAM <- apply(summarystatAM, 2, f)
 SUMMARYsi <- apply(SUMMARYsi , 2, f)
 View(summaryIM)
@@ -117,6 +135,7 @@ View(obs)
 
 #min number of sim
 nlinesFul=min(nrow(summaryIM), nrow(summarySC), nrow(summarystatAM), nrow(SUMMARYsi))
+nlinesFul=min(nrow(sumfastalnAM),nrow(sumfastalnSC),nrow(sumfastalnIM),nrow(sumfastalnSI))
 reduce = nlinesFul/1 #reduction factor to not keep all sims
 
 x <- as.factor(c(rep("summaryIM",reduce),
@@ -124,6 +143,12 @@ x <- as.factor(c(rep("summaryIM",reduce),
        # rep("summarystatAM",reduce),
       #  rep("SUMMARYsi",reduce), 
         rep("obs",1))) 
+
+x <- as.factor(c(rep("sumfastalnAM",reduce),
+                 rep("sumfastalnIM",reduce),
+                  rep("sumfastalnSC",reduce),
+                  rep("sumfastalnSI",reduce), 
+                 rep("obsfast",1))) 
 View(x)       
 #z=rbind(SI1b[1:reduce,],
 #    IM4b[1:reduce,],
@@ -131,15 +156,18 @@ View(x)
 #    SC4b[1:reduce,])
 
 z=rbind(summaryIM[1:reduce,],
-        summarySC[1:reduce,]
+        summarySC[1:reduce,],
         summarystatAM[1:reduce,],
         SUMMARYsi[1:reduce,])
-View(z)
-data=(as.data.frame(rbind(z,obs)))
-View(data)
-couleur <- c("red","blue","black","yellow","orange")
 
-acp1 <- dudi.pca(data,scannf=F,nf=2)
+z=rbind(sumfastalnAM[1:reduce,], sumfastalnIM[1:reduce,],sumfastalnSC[1:reduce,],sumfastalnSI[1:reduce,])
+
+View(z)
+datafast=(as.data.frame(rbind(z,obsfast)))
+View(data)
+couleur <- c("red","blue","black","pink","orange")
+
+acp1 <- dudi.pca(datafast,scannf=F,nf=2)
 
 pdf(file="acp_ade4_2.pdf")
 s.class(acp1$li,x,col=couleur) # avec des ellipses de confiance
