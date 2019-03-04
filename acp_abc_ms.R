@@ -79,41 +79,49 @@ IM1b=IM1[c(1:nlinesFul),-c(1:3,12,13,18:25)]
 target=target[-c(1:3,12,13,18:25)]
 obs=matrix(rep(target[1:19],1), byrow=T, nrow=1)
 
-###IMPORTDATA
+###IMPORTDATA#############################################################################################################
+###############################################################DATA FASTSIMBAC#######################################
 sumfastalnSI <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_sur_alignement/statistiquefastSimbac_1712736bp/summary_fastSI", col_names = FALSE)
 sumfastalnAM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_sur_alignement/statistiquefastSimbac_1712736bp/summary_fastAM", col_names = FALSE)
 sumfastalnSC <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_sur_alignement/statistiquefastSimbac_1712736bp/summary_fastSC", col_names = FALSE)
 sumfastalnIM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_sur_alignement/statistiquefastSimbac_1712736bp/summary_fastIM", col_names = FALSE)
 obsfast <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_sur_alignement/statistiquefastSimbac_1712736bp/obs.txt",  col_names = FALSE)
 
+###############################################################DATA MS#######################################
 
-summarySC <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summarySC", col_names = FALSE)
-summarystatAM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/summarystatAM",  col_names = FALSE)
-SUMMARYsi <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/SUMMARYsi", col_names = FALSE)
-obs <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/obs.txt",  col_names = FALSE)
+statmsSI <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/pSIms9", col_names = FALSE)
+statmsAM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/priors9/AMms9",  col_names = FALSE)
+statmsSC <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/priors9/SCms9",  col_names = FALSE)
+statmsIM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/priors9/IMms9", col_names = FALSE)
 
-#NE PAS RAJOUTER DE FACTEUR
-scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/im.csv",what=character(),sep="\t" )->summaryIM$X1
-scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/AM.csv",what=character(),sep="\t" )->summarystatAM$X1
-scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/SC.csv",what=character(),sep="\t" )->summarySC$X1
-scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/si.csv",what=character(),sep="\t" )->SUMMARYsi$X1
+obs998 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/priors8/obs998msums.txt",  col_names = FALSE)
+
 
 View(summaryIM)
 View(summarySC)
 View(summarystatAM)
 View(SUMMARYsi)
 View(obs)
-### ENLEVER LES na
+###############################################################################################################################
+### ENLEVER LES na#############################################################################################################
 f <- function(x){
   m <- mean(x, na.rm = TRUE)
   x[is.na(x)] <- m
   x
 }
+###############################################################DATA FASTSIMBAC#######################################
 sumfastalnSI<- apply(sumfastalnSI, 2, f)
 sumfastalnSC<- apply(sumfastalnSC, 2, f)
 sumfastalnAM<- apply(sumfastalnAM, 2, f)
 sumfastalnIM<- apply(sumfastalnIM, 2, f)
+###############################################################DATA MS#######################################
+statmsAM <-apply(statmsAM , 2, f)
+statmsIM<-apply(statmsIM , 2, f)
+statmsSC<-apply(statmsSC , 2, f)
+statmsSI<-apply(statmsSI , 2, f)
 
+###############################################################DATA FASTSIMBAC#######################################
+#VIRER DES COLONNES SANS RIEN
 sumfastalnSI=sumfastalnSI[c(1:nlinesFul),c(1:39)]
 sumfastalnSC=sumfastalnSC[c(1:nlinesFul),c(1:39)]
 sumfastalnAM=sumfastalnAM[c(1:nlinesFul),c(1:39)]
@@ -121,21 +129,17 @@ sumfastalnIM=sumfastalnIM[c(1:nlinesFul),c(1:39)]
 obsfast=obsfast[c(1:1),c(1:39)]
 
 
-
-summaryIM<- apply(summary_IM5, 2, f)
-summarySC <- apply(summary_SC5, 2, f)
-summarystatAM <- apply(summarystatAM, 2, f)
-SUMMARYsi <- apply(SUMMARYsi , 2, f)
-View(summaryIM)
-View(summarySC)
-View(summarystatAM)
-View(SUMMARYsi)
-View(obs)
-
+###############################################################DATA MS#######################################
+###############################################################DATA FASTSIMBAC#######################################
 
 #min number of sim
 nlinesFul=min(nrow(summaryIM), nrow(summarySC), nrow(summarystatAM), nrow(SUMMARYsi))
+###############################################################DATA FASTSIMBAC#######################################
 nlinesFul=min(nrow(sumfastalnAM),nrow(sumfastalnSC),nrow(sumfastalnIM),nrow(sumfastalnSI))
+###############################################################DATA ms#######################################
+nlinesFul=min(nrow(statmsSI ),nrow(statmsSC ),nrow(statmsAM),nrow(statmsIM))
+nlinesFul=min(nrow(statmsIM),nrow(statmsSI),nrow(statmsSC))
+
 reduce = nlinesFul/1 #reduction factor to not keep all sims
 
 x <- as.factor(c(rep("summaryIM",reduce),
@@ -143,37 +147,60 @@ x <- as.factor(c(rep("summaryIM",reduce),
        # rep("summarystatAM",reduce),
       #  rep("SUMMARYsi",reduce), 
         rep("obs",1))) 
-
+###############################################################DATA FASTSIMBAC#######################################
 x <- as.factor(c(rep("sumfastalnAM",reduce),
                  rep("sumfastalnIM",reduce),
                   rep("sumfastalnSC",reduce),
                   rep("sumfastalnSI",reduce), 
                  rep("obsfast",1))) 
-View(x)       
+View(x) 
+###############################################################DATA ms#######################################
+x_ms <- as.factor(c(rep("statmsIM",reduce), rep("statmsAM",reduce),rep("statmsSI",reduce),rep("statmsSC",reduce),
+                 rep("obs998",1))) 
+View(x_ms) 
 #z=rbind(SI1b[1:reduce,],
 #    IM4b[1:reduce,],
 #    AM4b[1:reduce,],
 #    SC4b[1:reduce,])
-
+###############################################################DATA FASTSIMBAC#######################################
 z=rbind(summaryIM[1:reduce,],
         summarySC[1:reduce,],
         summarystatAM[1:reduce,],
         SUMMARYsi[1:reduce,])
+###############################################################DATA MS#######################################
+z_ms=rbind(statmsIM[1:reduce,],
+           statmsAM[1:reduce,],
+           statmsSI[1:reduce,],
+           statmsSC[1:reduce,]
+        #, sumfastalnIM[1:reduce,],sumfastalnSC[1:reduce,],sumfastalnSI[1:reduce,]
+        )
 
-z=rbind(sumfastalnAM[1:reduce,], sumfastalnIM[1:reduce,],sumfastalnSC[1:reduce,],sumfastalnSI[1:reduce,])
-
-View(z)
+View(z_ms)
+###############################################################DATA FASTSIMBAC#######################################
 datafast=(as.data.frame(rbind(z,obsfast)))
-View(data)
+###############################################################DATA MS#######################################
+datams=(as.data.frame(rbind(z_ms,obs998)))
+View(datams)
 couleur <- c("red","blue","black","pink","orange")
 
 acp1 <- dudi.pca(datafast,scannf=F,nf=2)
+###############################################################DATA MS#######################################
+acpms <- dudi.pca(datams,scannf=F,nf=2)
 
 pdf(file="acp_ade4_2.pdf")
 s.class(acp1$li,x,col=couleur) # avec des ellipses de confiance
+acpms$li->ESSAI
+s.class(acpms$li,x_ms,col=couleur) # avec des ellipses de confiance
 dev.off()
 
-
+s.label(acpms$li,
+        xax = 1,     # Dimension 1
+        yax = 2) 
+scatter(acpms,
+        posieig = "none", # Cacher le scree plot
+        clab.row = 0      # Caché l'annotation de slignes
+)
+s.class(acpms$li,x)
 ############### Autre méthode ##########################################
 #Autre methode
 library(hexbin)
@@ -214,3 +241,11 @@ for (pci in 1:3){ #x_coords
   }
 }
 dev.off ( which=dev.cur() )
+
+
+
+#NE PAS RAJOUTER DE FACTEUR
+scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/im.csv",what=character(),sep="\t" )->summaryIM$X1
+scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/AM.csv",what=character(),sep="\t" )->summarystatAM$X1
+scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/SC.csv",what=character(),sep="\t" )->summarySC$X1
+scan(file = "~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/si.csv",what=character(),sep="\t" )->SUMMARYsi$X1

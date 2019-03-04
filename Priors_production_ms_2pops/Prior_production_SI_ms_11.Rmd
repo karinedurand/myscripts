@@ -34,8 +34,8 @@ tbs<-NULL
 #####TIRER un prior locus dans une distribution uniforme de bornes 
 #L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/1368oRTHOLOGUES_summarystats/lenght")#bound_taille du gene[100-2500]
 L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/msms/lenght")#bound_taille du gene[100-2500]
-t<-runif(997,0, 0.001 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
-r<-runif(997,0,0.001)#bound_rho=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+t<-runif(997,0, 0.004 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+r<-runif(997,0,0.004)#bound_rho=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
 #delta<-round(runif(997,10, 1000))#bound=[10-1000]
 #print(L,t,r,delta)
 m_locus=matrix(c(L,t*L,r*L),ncol=3)
@@ -45,7 +45,7 @@ for (i in 1:1000){#tirage des priors demographiques
 #variables demographique modéle SI
 #Param_demo (3) =   Ts, N1, N2,
   ##Param_demo (5) = Ts  N1, N2,  M12, M21
-  Ts<-runif(1,0,30)#bound=[1,100,1E+7] Ts/4N0
+  Ts<-runif(1,0,20)#bound=[1,100,1E+7] Ts/4N0
   N1<-runif(1,0,30)#bound=[100,1E+6] X=N1/N0
   N2<-runif(1,0,30)#bound=[100,1E+6]
   Na<-runif(1,0,60)#Bound=[100,1E+6]
@@ -55,7 +55,7 @@ m_demo=matrix(c(Ts,N1,N2,Na),ncol=4)
 m_demo=as.data.frame(m_demo)
 locus<-cbind(m_locus,m_demo)
 
-path <- "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/msms/Priors_SI_ms_9/SI" 
+path <- "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/msms/Priors_SI_ms_13/SI" 
 write.table(locus,file= paste(path,i, sep="-"),col.names=FALSE,row.names =FALSE)
 }
 ```
