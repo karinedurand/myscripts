@@ -16,6 +16,7 @@ results
 install.packages("abcrf")
 # or if you got the abcrf source file then write: install.packages(“abcrf_1.1.tar.gz”, repos = NULL, type="source")
 library(abcrf)
+library("abcrf", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.4")
 
 # STEP2 - Go into your working directory which may be the DIYABC project directory.
 setwd("/pathway_for_my_working_directory/")

@@ -11,6 +11,7 @@ if("ade4" %in% rownames(installed.packages()) == FALSE)
 library(data.table)
 library(ade4)
 library(readr)
+setwd("~/partage_windows/Xylella/analyses_genomiques/ABC/myscripts/")
 
 target=as.numeric(read.table("00.data/OBS.ABC.stat.txt",skip=2,h=F))
 
@@ -89,19 +90,19 @@ obsfast <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/fastSi
 
 ###############################################################DATA MS#######################################
 
-statmsSI <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/pSIms9", col_names = FALSE)
+statmsSI <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/priors9/SIms9", col_names = FALSE)
 statmsAM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/priors9/AMms9",  col_names = FALSE)
 statmsSC <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/priors9/SCms9",  col_names = FALSE)
 statmsIM <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/priors9/IMms9", col_names = FALSE)
 
-obs998 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/priors8/obs998msums.txt",  col_names = FALSE)
+obs997 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/msms/statsmsms/ABSstat997obs.txt",  col_names = FALSE)
 
 
 View(summaryIM)
 View(summarySC)
 View(summarystatAM)
 View(SUMMARYsi)
-View(obs)
+View(obs997)
 ###############################################################################################################################
 ### ENLEVER LES na#############################################################################################################
 f <- function(x){
@@ -156,7 +157,7 @@ x <- as.factor(c(rep("sumfastalnAM",reduce),
 View(x) 
 ###############################################################DATA ms#######################################
 x_ms <- as.factor(c(rep("statmsIM",reduce), rep("statmsAM",reduce),rep("statmsSI",reduce),rep("statmsSC",reduce),
-                 rep("obs998",1))) 
+                 rep("obs997",1))) 
 View(x_ms) 
 #z=rbind(SI1b[1:reduce,],
 #    IM4b[1:reduce,],
@@ -179,13 +180,20 @@ View(z_ms)
 ###############################################################DATA FASTSIMBAC#######################################
 datafast=(as.data.frame(rbind(z,obsfast)))
 ###############################################################DATA MS#######################################
-datams=(as.data.frame(rbind(z_ms,obs998)))
+datams=(as.data.frame(rbind(z_ms,obs997)))
 View(datams)
 couleur <- c("red","blue","black","pink","orange")
 
 acp1 <- dudi.pca(datafast,scannf=F,nf=2)
 ###############################################################DATA MS#######################################
 acpms <- dudi.pca(datams,scannf=F,nf=2)
+acpms <- dudi.pca(datams,scannf=F,nf=4)
+matrice<-data.frame(acpms$li)
+write.table(matrice,sep=" ", file="matrice")
+matrice<- read.table("~/partage_windows/Xylella/analyses_genomiques/ABC/myscripts/matrice.csv", sep=";", col.names = F,row.names=1)
+ggplot(matrice, aes(x=V2,y=V3, shape=V1, color=V1))+geom_point()+scale_color_manual(values=c('grey','pink', 'red',"black","blue"))
+
+ggplot(matrice, aes(x=V4,y=V5, shape=V1, color=V1))+geom_point()+scale_color_manual(values=c('blue','black', 'red',"pink","orange"))
 
 pdf(file="acp_ade4_2.pdf")
 s.class(acp1$li,x,col=couleur) # avec des ellipses de confiance
@@ -201,6 +209,17 @@ scatter(acpms,
         clab.row = 0      # Caché l'annotation de slignes
 )
 s.class(acpms$li,x)
+
+############################dISTRIBUTION STATS##############################################################"
+SI=datams[c(2001:3000),c(1:73)]
+IM=datams[c(1:1000),c(1:73)]
+
+ggplot(SI, aes(x=X2)) + geom_histogram()+geom_vline(xintercept=134.5930, color="red")
+ggplot(datams, aes(x=X4)) + geom_histogram()+geom_vline(xintercept=5.264530, color="red")
+ggplot(IM, aes(x=X10)) + geom_histogram()+geom_vline(xintercept=0.002188940, color="red")#THETA_0
+ggplot(datams, aes(x=X20)) + geom_histogram()+geom_vline(xintercept=106.63300, color="red")
+ggplot(datams, aes(x=X26)) + geom_histogram()+geom_vline(xintercept=9.86335e-04, color="red")
+
 ############### Autre méthode ##########################################
 #Autre methode
 library(hexbin)
