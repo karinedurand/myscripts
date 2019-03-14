@@ -1,0 +1,36 @@
+---
+title: "ABC classic"
+author: "karine Durand"
+date: "11 mars 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(abc)
+require(abc.data)
+data(musigma2)
+```
+
+## Model selection
+The main model selection function is called postpr. However, before applying this function on the
+real data, we perform a cross-validation for model selection (cv4postpr) to evaluate if ABC can, at
+all, distinguish between the three models
+
+```{r cars}
+modindex <- c(rep("SIhomo",10000), rep("SIhetero",10000),rep("IM1",10000) , rep("IM2",10000),rep("IM3",10000),rep("IM4",10000) , rep("SC1",10000),rep("SC2",10000), rep("SC3",10000),rep("SC4",10000),rep("AM1",10000),rep("AM2",10000),rep("AM3",10000),rep("AM4",10000))
+cv.modsel <- cv4postpr(modindex, sumstatRoux, nval=5, tol=.01, method="mnlogistic")
+s <- summary(cv.modsel)
+$tol0.01
+```
+
+Now, we may calculate the posterior probabilities of each demographic scenario using the rejection
+("rejection") and the multinomial logistic regression method ("mnlogistic") of the function postpr
+with a tolerance rate of 0.05%. The function summary prints out posterior model probabilities and ratios
+of model probabilities (the Bayes factors) in a user-friendly way:
+
+```{r pressure, echo=FALSE}
+
+modsel.obs <- postpr(obs997, modindex, sumstatRoux, tol=.05, method="mnlogistic")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
