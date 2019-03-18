@@ -206,6 +206,8 @@ plot(x = model.rf.TS, n.var = 25)
 
 ###prediction
 pred.obsTS <- predict(object = model.rf.TS, obs = obs997,training = dataTS, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsTam <- predict(object = model.rf.TAM, obs = obs997,training = dataTAM, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsM <- predict(object = model.rf.M1, obs = obs997,training = dataM1, quantiles = c(0.025,0.975),paral = TRUE)
 # The 2.5 and 97.5 order quantiles are computed by specifying
 # quantiles = c(0.025,0.975).
 #Posterior mean can be retrieved by
