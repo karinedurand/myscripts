@@ -175,9 +175,9 @@ pdf(file="posterieurprobaTS_AM")
 densityPlot(model.rf.TS, obs997, dataTS, ylab="density", main = "Posterior density of TS")
 dev.off()
 
-M1<-  rouxN3000$param$M1[modindex == "AM1"]
+M1<-  rouxN10000$param$M1[modindex == "AM1"]
 
-dataM1 <- data.frame(M1, sumstatN3000)
+dataM1 <- data.frame(M1, sumstatN10000)
 dataM1   <-dataM1[30001:40000,]
 model.rf.M1<- regAbcrf(M1~., dataM1, ntree=500)
 model.rf.TM1
@@ -213,9 +213,9 @@ pred.obsTS$expectation
 pred.obsTS$quantiles
 pred.obsTS$variance
 ####TAM
-TAM <-  XROUX $param$Tam[modindex == "AM1"]
+TAM <-  rouxN10000$param$Tam[modindex == "AM1"]
 
-dataTAM <- data.frame(TAM, sumstatRoux)
+dataTAM <- data.frame(TAM, sumstatN10000)
 dataTAM  <-dataTAM[30001:40000,]
 model.rf.TAM <- regAbcrf(TAM~., dataTAM, ntree=500)
 model.rf.TAM
