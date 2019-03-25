@@ -36,7 +36,7 @@ paramAM2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorg
 paramAM3<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_19pauca/AM_Nhetero_Mhomo/priorfile", col_names = T)
 paramAM4<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_19pauca/AM_Nhetero_Mhetero/priorfile", col_names = T)
 
-rbind.fill(paramSI1,paramIM1,paramSC1,paramAM1)->paramN10000
+rbind.fill(paramSI1,paramSI2,paramIM1,paramIM2,paramIM3,paramIM4,paramSC1,paramSC2,paramSC3,paramSC4,paramAM1,paramAM2,paramAM3,paramAM4)->paramN10000
 
 #import des stats
 
@@ -91,7 +91,7 @@ obs1209 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/obs/12
 #param<- read_delim("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/paramtot",";", escape_double = FALSE,  trim_ws = #TRUE)
 #sumsta <- read_delim("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/sumsta",  ";", escape_double = FALSE, trim_ws = TRUE)
 
-modindex <- as.factor(c(rep("SIhomo",10000),rep("IM1",10000)  , rep("SC1",10000),rep("AM1",10000)))
+modindex <- as.factor(c(rep("SIhomo",10000),rep("SIhetero",10000),rep("IM1",10000),rep("IM2",10000),rep("IM3",10000),rep("IM4",10000)  , rep("SC1",10000), rep("SC2",10000), rep("SC3",10000), rep("SC4",10000),rep("AM1",10000),rep("AM2",10000),rep("AM3",10000),rep("AM4",10000)))
 
 
 #dfparam = as.data.frame(param)
@@ -107,7 +107,7 @@ View(dfsumsta)
 rouxN10000 <- list(modindex=modindex,param=dfparam, sumsta=dfsumsta)
 dataN10000 <- data.frame(modindex, sumstatN10000)
 model.rf1ROUX<- abcrf(modindex~., data=dataN10000 ,ntree=500,paral = TRUE)
-model.rf1ROUX
+
 
 
 
@@ -144,54 +144,65 @@ Given a reg-ABC-RF object and a new value of the summary statistics, densityPlot
 corresponding posterior density plot of the parameter, as well as the prior (in grey)
 
 ```{r}
-N1 <- rouxN10000$param$N1[modindex == "AM1"]
-
+N1 <- rouxN10000$param$N1[modindex == "IM4"]
 dataN1 <- data.frame(N1, sumstatN10000)
-dataN1 <-dataN1[30001:40000,]
+dataN1 <-dataN1[50001:60000,]
 model.rf.N1 <- regAbcrf(N1~., dataN1, ntree=500)
-model.rf.N1
 plot(model.rf.N1)
 pdf(file="posterieurprobaTS_AM1")
-densityPlot(model.rf.N1, obs997, dataN1, ylab="density", main = "Posterior density of N1")
+densityPlot(model.rf.N1, obs1209, dataN1, ylab="density", main = "Posterior density of N1")
 dev.off()
-N2 <- rouxN10000&É$param$N2[modindex == "AM1"]
+N2 <- rouxN10000$param$N2[modindex == "IM4"]
 dataN2 <- data.frame(N2, sumstatN10000)
-dataN2 <-dataN2[30001:40000,]
+dataN2 <-dataN2[50001:60000,]
 model.rf.N2 <- regAbcrf(N2~., dataN2, ntree=500)
-model.rf.N2
 plot(model.rf.N2)
 pdf(file="posterieurprobaN2_AM1")
-densityPlot(model.rf.N2, obs997, dataN2, ylab="density", main = "Posterior density of N2")
+densityPlot(model.rf.N2, obs1209, dataN2, ylab="density", main = "Posterior density of N2")
 dev.off()
 ####
-TS <-  rouxN10000$param$Tsplit[modindex == "AM1"]
-
+TS <-  rouxN10000$param$Tsplit[modindex == "IM4"]
 dataTS <- data.frame(TS, sumstatN10000)
-dataTS  <-dataTS[30001:40000,]
+dataTS  <-dataTS[50001:60000,]
 model.rf.TS <- regAbcrf(TS~., dataTS, ntree=500)
 model.rf.TSC
-
 pdf(file="posterieurprobaTS_AM")
-densityPlot(model.rf.TS, obs997, dataTS, ylab="density", main = "Posterior density of TS")
+densityPlot(model.rf.TS, obs1209, dataTS, ylab="density", main = "Posterior density of TS")
 dev.off()
-
-M1<-  rouxN10000$param$M1[modindex == "AM1"]
-
+##
+M1<-  rouxN10000$param$M1[modindex == "IM4", ]
 dataM1 <- data.frame(M1, sumstatN10000)
-dataM1   <-dataM1[30001:40000,]
+dataM1   <-dataM1[50001:60000,]
 model.rf.M1<- regAbcrf(M1~., dataM1, ntree=500)
 model.rf.TM1
 plot(model.rf.TM1)
 pdf(file="posterieurprobaTS_AM")
-densityPlot(model.rf.M1, obs997, dataM1, ylab="density", main = "Posterior density of M1")
+densityPlot(model.rf.M1, obs1209, dataM1, ylab="density", main = "Posterior density of M1")
+dev.off()
+M2<-  rouxN10000$param$M2[modindex == "IM4"]
+dataM2 <- data.frame(M2, sumstatN10000)
+dataM2   <-dataM2[50001:60000,]
+model.rf.M2<- regAbcrf(M2~., dataM2, ntree=500)
+plot(model.rf.M2)
+pdf(file="posterieurprobaTS_AM")
+densityPlot(model.rf.M2, obs1209, dataM2, ylab="density", main = "Posterior density of M2")
+dev.off()
+####TAM
+TAM <-  rouxN10000$param$Tam[modindex == "AM4"]
+dataTAM <- data.frame(TAM, sumstatN10000)
+dataTAM  <-dataTAM[130001:140000,]
+model.rf.TAM <- regAbcrf(TAM~., dataTAM, ntree=500)
+model.rf.TAM
+plot(model.rf.TAM)
+pdf(file="posterieurprobaTS_AM")
+densityPlot(model.rf.TAM, obs1209, dataTS, ylab="density", main = "Posterior density of TAM")
 dev.off()
 ####REGRESSION
 ####classification par regression paramtre explorer TS
 #The used formula means that we are interested in explaining the parameter
 # TS thanks to all the remaining columns of dataTS
-TS <-  XROUX $param$Tsplit[modindex == "AM1"]
-
-dataTS <- data.frame(TS, sumstatRoux)
+TS <-  rouxN10000$param$Tsplit[modindex == "AM1"]
+dataTS <- data.frame(TS, sumstatN10000)
 dataTS  <-dataTS[30001:40000,]
 model.rf.TS <- regAbcrf(TS~., dataTS, ntree=500,min.node.size = 5, paral = TRUE, mtry =14)
 model.rf.TS
@@ -205,57 +216,20 @@ plot(errorOOB)
 plot(x = model.rf.TS, n.var = 25)
 
 ###prediction
-pred.obsTS <- predict(object = model.rf.TS, obs = obs997,training = dataTS, quantiles = c(0.025,0.975),paral = TRUE)
-pred.obsTam <- predict(object = model.rf.TAM, obs = obs997,training = dataTAM, quantiles = c(0.025,0.975),paral = TRUE)
-pred.obsM <- predict(object = model.rf.M1, obs = obs997,training = dataM1, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsTS <- predict(object = model.rf.TS, obs = obs1209,training = dataTS, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsTam <- predict(object = model.rf.TAM, obs = obs1209,training = dataTAM, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsM1 <- predict(object = model.rf.M1, obs = obs1209,training = dataM1, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsM2 <- predict(object = model.rf.M2, obs = obs1209,training = dataM1, quantiles = c(0.025,0.975),paral = TRUE)
 # The 2.5 and 97.5 order quantiles are computed by specifying
 # quantiles = c(0.025,0.975).
 #Posterior mean can be retrieved by
 pred.obsTS$expectation
 pred.obsTS$quantiles
 pred.obsTS$variance
-####TAM
-TAM <-  rouxN10000$param$Tam[modindex == "AM1"]
-
-dataTAM <- data.frame(TAM, sumstatN10000)
-dataTAM  <-dataTAM[30001:40000,]
-model.rf.TAM <- regAbcrf(TAM~., dataTAM, ntree=500)
-model.rf.TAM
-plot(model.rf.TAM)
-pdf(file="posterieurprobaTS_AM")
-densityPlot(model.rf.TAM, obs997, dataTS, ylab="density", main = "Posterior density of TAM")
-dev.off()
-##N1
-
-N1 <- xyl$param$V2[modindex == "SI"]
-sumstaN1 <- dfsumsta[1:1000,]
-data3 <- data.frame(N1, sumstaN1)
-model.rf.N1 <- regAbcrf(N1~., data3, ntree=500)
-model.rf.N1
-plot(model.rf.N1)
-pdf(file="posterieurprobaN1_SI")
-densityPlot(model.rf.N1, obs997, data3, ylab="density", main = "Posterior density of N1")
-dev.off()
-covRegAbcrf(model.rf.TS, model.rf.N1, obs997,data2, data3, ntree=500)
-##NA
-
-Na <- xyl$param$V3[modindex == "SI"]
-dataNA <- data.frame(Na, sumstaN1)
-model.rf.NA <- regAbcrf(N1~., data3, ntree=500)
-model.rf.NA
-plot(model.rf.NA)
-pdf(file="posterieurprobaNA_SI")
-densityPlot(model.rf.NA, obs997, dataNA, ylab="density", main = "Posterior density of NA")
-dev.off()
-##M12
-M1<-  $param$M1[modindex == "AM1"]
-
-dataM1 <- data.frame(M1, sumstatRoux)
-dataM1   <-dataM1[100001:110000,]
-model.rf.M1<- regAbcrf(M1~., dataM1, ntree=3000)
-model.rf.TM1
-plot(model.rf.TM1)
-pdf(file="posterieurprobaTS_AM")
-densityPlot(model.rf.M1, obs997, dataM1, ylab="density", main = "Posterior density of M1")
-dev.off()
+pred.obsTam$expectation
+pred.obsTam$quantiles
+pred.obsTam$variance
+pred.obsM1$expectation
+pred.obsM1$quantiles
+pred.obsM1$variance
 ```
