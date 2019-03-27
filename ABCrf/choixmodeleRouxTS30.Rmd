@@ -21,7 +21,9 @@ first row is the column labels. The field separator character being a white spac
 
 ```{r cars}
 ###ormule#############
-paramSIhomo <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/MODIFICATIONTS30/SI_Nhomo/priorfile", col_names = T)
+paramSIhomo <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/MODIFICATIONTS30/SI_Nhomo/997", col_names = T)
+paramtheta <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/MODIFICATIONTS30/AM_Nhomo_Mhomo/paramtheta", col_names = F)
+
 #paramSIhetero <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/stat_hetero/priorfileSINhetero", col_names = T)
 paramIM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/MODIFICATIONTS30/IM_Nhomo_Mhomo/priorfile", col_names = T)
 #paramIM2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/stat_hetero/priorfileIMhomo_Mhetero.txt", col_names = T)
@@ -31,7 +33,13 @@ paramSC1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorg
 #paramSC2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/stat_hetero/priorfileSC_Nhomo_Mhetero.txt", col_names = T)
 #paramSC3<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/stat_hetero/priorfileSC_NheteroMhomo", col_names = T)
 #paramSC4<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/MODIFICATIONTS30/AM", col_names = T)
-paramAM1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/MODIFICATIONTS30/AM_Nhomo_Mhomo/priorfile", col_names = T)
+paramAM1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/MODIFICATIONTS30/AM_Nhomo_Mhomo/temp", col_names = T)
+
+paramAM1[997:9969999,]->paramAM1
+
+paramtheta<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/MODIFICATIONTS30/AM_Nhomo_Mhomo/paramtheta", col_names = F)
+paramtheta[997:9969999,]->paramtheta
+cbind.na(paramtheta,paramAM1)->paramAM1
 #paramAM2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/stat_hetero/priorfileAM_Nhomo_Mhetero", col_names = T)
 #paramAM3<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/stat_hetero/priorfileAMNheteroMhomo", col_names = T)
 #paramAM4<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/stat_hetero/priorfileAMNheteroMhetero", col_names = T)
@@ -52,7 +60,8 @@ IM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_1
 #IM3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhomo/ABCstat.txt",  col_names = T)
 #IM4 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhetero/IM_Nhetero_Mhetero.txt",  col_names = T)
 
-AM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/MODIFICATIONTS30/AM_Nhomo_Mhomo/ABCstat.txt",  col_names = T)
+AM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/MODIFICATIONTS30/AM_Nhomo_Mhomo/ABC9970000",  col_names = T)
+AM1[997:9969999,]->AM1 
 #AM2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_Mhetero/ABCstat.txt",  col_names = T)
 #AM3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhomo/AM_Nhetero_Mhomo.txt",  col_names = T)
 #AM4 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhetero/AM_Nhetero_Mhetero.txt",  col_names = T)
@@ -74,7 +83,7 @@ AM4  <- apply(AM4  , 2, f)
 
 rbind.na(SINhomo,IM1,SC1,AM1)->sumstatRoux
 
-obs997 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/obs/998ortho_multi_13pauca_sansrecomb/997_obs.txt",  col_names = T)
+obs997 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/obs/997_ortho13paucamulti_clean/997obs.txt",  col_names = T)
 
 
 
@@ -82,18 +91,20 @@ obs997 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/obs/998
 #sumsta <- read_delim("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/sumsta",  ";", escape_double = FALSE, trim_ws = TRUE)
 
 modindex <- as.factor(c(rep("SIhomo",10000),rep("IM1",10000)  , rep("SC1",10000),rep("AM1",10000)))
+modindex <- as.factor(c(rep("AM1",9969003)))
 
 
 #dfparam = as.data.frame(param)
-
+dfparam=as.data.frame(paramAM1)
 dfparam=as.data.frame(paramRoux)
 View(dfparam)
 index1 <-as.factor(modindex) # To store the model 1 indexes.
 
 #dfsumsta = as.data.frame(sumsta)
-dfsumsta = as.data.frame(sumstatRoux)
+dfsumsta = as.data.frame(AM1)
 View(dfsumsta)
 #n try = k/3 k nombre de summary stats =variable 42 ntry=14
+XROUX <- list(modindex=modindex,param=dfparam, sumsta=dfsumsta)
 XROUX <- list(modindex=modindex,param=dfparam, sumsta=dfsumsta)
 data1 <- data.frame(modindex, sumstatRoux)
 model.rf1ROUX<- abcrf(modindex~., data=data1 ,ntree=3000)
@@ -134,8 +145,16 @@ Given a reg-ABC-RF object and a new value of the summary statistics, densityPlot
 corresponding posterior density plot of the parameter, as well as the prior (in grey)
 
 ```{r}
-N1 <- XROUX $param$N1[modindex == "AM1"]
 
+theta <- XROUX$param$X1[modindex == "AM1"]
+
+dataTHETA <- data.frame(theta,AM1)
+dataN1 <-dataN1[30001:40000,]
+model.rf.theta <- regAbcrf(theta~., dataTHETA, ntree=500)
+model.rf.N1
+densityPlot(model.rf.theta, obs997, dataTHETA, ylab="density", main = "Posterior density of THETA")
+
+N1 <- XROUX $param$N1[modindex == "AM1"]
 dataN1 <- data.frame(N1, sumstatRoux)
 dataN1 <-dataN1[30001:40000,]
 model.rf.N1 <- regAbcrf(N1~., dataN1, ntree=500)
