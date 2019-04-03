@@ -1,0 +1,139 @@
+---
+title: "abc classique"
+author: "karine Durand"
+date: "29 mars 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library("abc.data", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.4")
+library("abc", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.4")
+```
+
+##Model selection
+The main model selection function is calledpostpr.  However,  before applying this function on thereal data, we perform a cross-validation for model selection (cv4postpr) to evaluate if ABC can, atall, distinguish between the three models.  The cross-validation might take a long time to run.  At thispoint, we might just want just a quick result to illustrate the use of the function, so we run only 10cross-validation simulations, and summarize and the results using the following commands:> 
+
+```{r setup, include=FALSE}
+data(human)
+models1 <- c(rep("SIhomo",10000),rep("SIhetero",10000),rep("IM1",10000),rep("IM2",10000),rep("IM3",10000),rep("IM4",10000)  , rep("SC1",10000), rep("SC2",10000), rep("SC3",10000), rep("SC4",10000),rep("AM1",10000),rep("AM2",10000),rep("AM3",10000),rep("AM4",10000))
+
+SI1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhomo/ABCstat.txt", col_names = T)
+SI2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhetero/ABCstat.txt", col_names = T)
+SC1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_Mhomo/ABCstat.txt",  col_names = T)
+SC2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_Mhetero/ABCstat.txt",  col_names = T)
+SC3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_Mhomo/ABCstat.txt",  col_names = T)
+SC4 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_Mhetero/ABCstat.txt",  col_names = T)
+
+IM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhomo/ABCstat.txt",  col_names = T)
+IM2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhetero/ABCstat.txt",  col_names = T)
+IM3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhomo/ABCstat.txt",  col_names = T)
+IM4 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhetero/ABCstat.txt",  col_names = T)
+
+AM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_Mhomo/ABCstat.txt",  col_names = T)
+AM2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_Mhetero/ABCstat.txt",  col_names = T)
+AM3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhomo/ABCstat.txt",  col_names = T)
+AM4 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhetero/ABCstat.txt",  col_names = T)
+
+SI1 <- apply(SI1 , 2, f)
+SI2  <- apply(SI2  , 2, f)
+SC1  <- apply(SC1  , 2, f)
+SC2  <- apply(SC2  , 2, f)
+SC3  <- apply(SC3  , 2, f)
+SC4  <- apply(SC4  , 2, f)
+IM1  <- apply(IM1  , 2, f)
+IM2  <- apply(IM2  , 2, f)
+IM3  <- apply(IM3  , 2, f)
+IM4  <- apply(IM4  , 2, f)
+AM1  <- apply(AM1  , 2, f)
+AM2  <- apply(AM2  , 2, f)
+AM3  <- apply(AM3  , 2, f)
+AM4  <- apply(AM4  , 2, f)
+
+rbind.na(SI1,SI2 ,IM1,IM2,IM3,IM4,SC1,SC2,SC3,SC4,AM1,AM2,AM3,AM4)->stat.2pops.13paucamulti
+as.data.frame(stat.2pops.13paucamulti)->stat.2pops.13paucamulti
+stat.2pops.13paucamulti[,2:42]->stat.2pops.13paucamulti
+
+#we perform a cross-validation for model selection (cv4postpr) 
+cv.modsel <- cv4postpr(models1, stat.2pops.13paucamulti, nval=50, tol=.01, method="mnlogistic")
+cv.modsel1 <- cv4postpr(models, stat.3pops.sim, nval=5, tol=.05, method="mnlogistic")
+
+s <- summary(cv.modsel1)#Confusion matrix based on 50 samples for each model
+s <- summary(cv.modsel)#Confusion matrix based on 50 samples for each model
+#The resulting confusion matrix may also be plotted using the following command:
+plot(cv.modsel, names.arg=c("Bottleneck", "Constant", "Exponential"))
+plot(cv.modsel, names.arg=c("SIhomo", "SIhetero", "IM1","IM2","IM3","IM4","SC1","SC2","SC3","SC4","AM1","AM2","AM3","AM4"))
+stat.italy.sim <- subset(stat.3pops.sim, subset = models == "bott")
+
+#we  may  calculate  the  posterior  probabilities  of  each  demographic  scenario  using  the  rejection("rejection") and the multinomial logistic regression method ("mnlogistic") of the functionpostprwith a tolerance rate of 0.05%. The functionsummaryprints out posterior model probabilities and ratiosof model probabilities (the Bayes factors) in a user-friendly way
+stat.obs997 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/obs/997_ortho13paucamulti_clean/997obs.txt",  col_names = T)
+stat.obs997[,2:42]->stat.obs997
+modsel <- postpr(stat.obs997, models1, stat.2pops.13paucamulti, tol=.05, method="mnlogistic")
+summary(modsel)
+
+#Before turning to parameter inference, it is important to check that the preferred model provides agood fit to the data.For the Italian data, we can plot the histogram of the null distribution under a bottleneck model onwhich we superimpose the observed value (Figure 3)
+
+res.gfit.AM4=gfit(target=stat.obs997, sumstat=stat.2pops.13paucamulti[models1=="AM4",],statistic=mean, nb.replicate=100)
+plot(res.gfit.AM4, main="Histogram under H0")
+summary(res.gfit.AM4)
+#calcul pvalue pour les autres modèles 
+res.gfit.AM3=gfit(target=stat.obs997, sumstat=stat.2pops.13paucamulti[models1=="AM3",],statistic=mean, nb.replicate=100)
+plot(res.gfit.AM3, main="Histogram under H0")
+summary(res.gfit.AM3)
+res.gfit.AM1=gfit(target=stat.obs997, sumstat=stat.2pops.13paucamulti[models1=="AM1",],statistic=mean, nb.replicate=100)
+plot(res.gfit.AM1, main="Histogram under H0")
+summary(res.gfit.AM1)
+#Cross-validationNow, we are almost ready to infer the ancestral population size under the bottleneck model for the
+
+paramSI1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhomo/priorfile", col_names = T)
+paramSI2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhetero/priorfile", col_names = T)
+paramIM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhomo/priorfile", col_names = T)
+paramIM2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhetero/priorfile", col_names = T)
+paramIM3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhomo/priorfile", col_names = T)
+paramIM4<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhetero/priorfile", col_names = T)
+paramSC1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_Mhomo/priorfile", col_names = T)
+paramSC2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_Mhetero/priorfile", col_names = T)
+paramSC3<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_Mhomo/priorfile", col_names = T)
+paramSC4<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_Mhetero/priorfile", col_names = T)
+paramAM1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_Mhomo/priorfile", col_names = T)
+paramAM2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_Mhetero/priorfile", col_names = T)
+paramAM3<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhomo/priorfile", col_names = T)
+paramAM4<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_multi_6paucast53/AM_Nhetero_Mhetero/priorfile", col_names = T)
+
+rbind.fill(paramSI1,paramSI2,paramIM1,paramIM2,paramIM3,paramIM4,paramSC1,paramSC2,paramSC3,paramSC4,paramAM1,paramAM2,paramAM3,paramAM4)->par.2pops.13paucamulti
+
+
+stat.AM4 <- stat.2pops.13paucamulti[130001:140000,]
+par.2pops.13paucamulti[,"Tsplit"])
+Tsplit=par.2pops.13paucamulti[ ,"Tsplit"]
+as.data.frame(Tsplit)->Tsplit
+Tsplit[130001:140000,]->Tsplit.AM4
+cv.res.rej <- cv4abc(data.frame(Tsplit=par.2pops.13paucamulti[,"Tsplit"]), stat.AM4, nval=10,tols=c(.005,.01, 0.05), method="rejection")
+par(mfrow=c(1,2), mar=c(5,3,4,.5), cex=.8)
+plot(cv.res.rej, caption="Rejection")
+cv.res.reg <- cv4abc(data.frame(Tsplit=Tsplit.AM4, stat.AM4, nval=10,tols=c(.005,.01, 0.05), method="loclinear"))
+
+
+
+#
+ mylabels <- c("netdivAB_avg","FST_avg", "Gmax_avg")
+ par(mfrow = c(1,3), mar=c(5,2,4,0))
+ for (i in c(1:3))
+   {hist(post.bott[,i],breaks=40, xlab=mylabels[i], main="")+ abline(v = stat.obs997[, i], col = 2) } 
+
+
+cv.res.reg <- cv4abc(data.frame(Na=par.italy.sim[,"Ne"]), stat.italy.sim,+nval=200, tols=c(.005,.001), method="loclinear")
+plot(cv.res.reg, caption="Ne")
+res <- abc(target=stat.voight["italian",], param=data.frame(Na=par.italy.sim[, "Ne"]),+ sumstat=stat.italy.sim, tol=0.005, transf=c("log"), method="neuralnet")
+plot(res, param=par.italy.sim[, "Ne"])
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -82,7 +82,7 @@ AM2  <- apply(AM2  , 2, f)
 AM3  <- apply(AM3  , 2, f)
 AM4  <- apply(AM4  , 2, f)
 
-rbind.na(SI1,SINhetero ,IM1,IM2,IM3,IM4,SC1,SC2,SC3,SC4,AM1,AM2,AM3,AM4)->sumstatN10000
+rbind.na(SI1,SINhetero ,IM1,IM2,IM3,IM4,SC1,SC2,SC3,SC4,AM1,AM2,AM3,AM4)->sumstat2popspauca
 
 obs1209 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/obs/1209_PAUCA_nonrecomb/ABC1209obs.txt",  col_names = T)
 
@@ -101,7 +101,7 @@ View(dfparam)
 index1 <-as.factor(modindex) # To store the model 1 indexes.
 
 #dfsumsta = as.data.frame(sumsta)
-dfsumsta = as.data.frame(sumstatN10000)
+dfsumsta = as.data.frame(sumstat2popspauca)
 View(dfsumsta)
 #n try = k/3 k nombre de summary stats =variable 42 ntry=14
 rouxN10000 <- list(modindex=modindex,param=dfparam, sumsta=dfsumsta)
@@ -131,7 +131,7 @@ corresponding posterior density plot of the parameter, as well as the prior (in 
 
 ```{r}
 N1 <- rouxN10000$param$N1[modindex == "AM4"]
-dataN1 <- data.frame(N1, sumstatN10000)
+dataN1 <- data.frame(N1, sumstat2popspauca)
 dataN1 <-dataN1[130001:140000,]
 model.rf.N1 <- regAbcrf(N1~., dataN1, ntree=500)
 plot(model.rf.N1)

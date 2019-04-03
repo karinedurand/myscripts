@@ -82,7 +82,7 @@ AM2  <- apply(AM2  , 2, f)
 AM3  <- apply(AM3  , 2, f)
 AM4  <- apply(AM4  , 2, f)
 
-rbind.na(SI1,SI2 ,IM1,IM2,IM3,IM4,SC1,SC2,SC3,SC4,AM1,AM2,AM3,AM4)->sumstatN10000
+rbind.na(SI1,SI2 ,IM1,IM2,IM3,IM4,SC1,SC2,SC3,SC4,AM1,AM2,AM3,AM4)->sumstat6PAUCAMULTI
 
 obs1169 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/obs/1169Nrecomb_17multiplex6st53/obs1169.txt",  col_names = T)
 
@@ -100,12 +100,12 @@ View(dfparam)
 index1 <-as.factor(modindex) # To store the model 1 indexes.
 
 #dfsumsta = as.data.frame(sumsta)
-dfsumsta = as.data.frame(sumstatN10000)
+dfsumsta = as.data.frame(sumstat6PAUCAMULTI)
 View(dfsumsta)
 #n try = k/3 k nombre de summary stats =variable 42 ntry=14
-rouxN10000 <- list(modindex=modindex,param=dfparam, sumsta=dfsumsta)
-dataN10000 <- data.frame(modindex, sumstatN10000)
-model.rf1ROUX<- abcrf(modindex~., data=dataN10000 ,ntree=500,paral = TRUE)
+rf6PAUCAMULTI<- list(modindex=modindex,param=dfparam, sumsta=dfsumsta)
+data6PAUCAMULTI <- data.frame(modindex, sumstat6PAUCAMULTI)
+model.rf6PAUCAMULTI<- abcrf(modindex~., data=data6PAUCAMULTI ,ntree=500,paral = TRUE)
 
 
 ```
@@ -115,12 +115,12 @@ model.rf1ROUX<- abcrf(modindex~., data=dataN10000 ,ntree=500,paral = TRUE)
 Confusion matrix:
 
 ```{r pressure}
-model.rf1ROUX
+model.rf6PAUCAMULTI
 
 
 #aec les data obs
-plot(model.rf1ROUX, dataN10000, obs=obs1169[1,])
-predict(model.rf1ROUX, obs1169, dataN10000, ntree=500)
+plot(model.rf6PAUCAMULTI, data6PAUCAMULTI, obs=obs1169[1,])
+predict(model.rf6PAUCAMULTI, obs1169, data6PAUCAMULTI, ntree=500)
 
 
 ```
@@ -130,25 +130,25 @@ Given a reg-ABC-RF object and a new value of the summary statistics, densityPlot
 corresponding posterior density plot of the parameter, as well as the prior (in grey)
 
 ```{r}
-N1 <- rouxN10000$param$N1[modindex == "AM3"]
-dataN1 <- data.frame(N1, sumstatN10000)
+N1 <- rf6PAUCAMULTI$param$N1[modindex == "AM3"]
+dataN1 <- data.frame(N1, sumstat6PAUCAMULTI)
 dataN1 <-dataN1[120001:130000,]
 model.rf.N1 <- regAbcrf(N1~., dataN1, ntree=500)
 plot(model.rf.N1)
 pdf(file="posterieurprobaTS_AM1")
 densityPlot(model.rf.N1, obs1169, dataN1, ylab="density", main = "Posterior density of N1")
 dev.off()
-N2 <- rouxN10000$param$N2[modindex == "AM3"]
-dataN2 <- data.frame(N2, sumstatN10000)
+N2 <- rf6PAUCAMULTI$param$N2[modindex == "AM3"]
+dataN2 <- data.frame(N2, sumstat6PAUCAMULTI)
 dataN2 <-dataN2[120001:130000,]
 model.rf.N2 <- regAbcrf(N2~., dataN2, ntree=500)
 plot(model.rf.N2)
 pdf(file="posterieurprobaN2_AM1")
-densityPlot(model.rf.N2, obs1209, dataN2, ylab="density", main = "Posterior density of N2")
+densityPlot(model.rf.N2, obs1169, dataN2, ylab="density", main = "Posterior density of N2")
 dev.off()
 ####
-TS <-  rouxN10000$param$Tsplit[modindex == "IM3"]
-dataTS <- data.frame(TS, sumstatN10000)
+TS <-  rf6PAUCAMULTI$param$Tsplit[modindex == "AM3"]
+dataTS <- data.frame(TS, sumstat6PAUCAMULTI)
 dataTS  <-dataTS[120001:130000,]
 model.rf.TS <- regAbcrf(TS~., dataTS, ntree=500)
 model.rf.TSC
@@ -156,8 +156,8 @@ pdf(file="posterieurprobaTS_AM")
 densityPlot(model.rf.TS, obs1169, dataTS, ylab="density", main = "Posterior density of TS")
 dev.off()
 ##
-M1<-  rouxN10000$param$M1[modindex == "AM3"]
-dataM1 <- data.frame(M1, sumstatN10000)
+M1<-  rf6PAUCAMULTI$param$M1[modindex == "AM3"]
+dataM1 <- data.frame(M1, sumstat6PAUCAMULTI)
 dataM1   <-dataM1[120001:130000,]
 model.rf.M1<- regAbcrf(M1~., dataM1, ntree=500)
 model.rf.TM1
@@ -165,23 +165,23 @@ plot(model.rf.TM1)
 pdf(file="posterieurprobaTS_AM")
 densityPlot(model.rf.M1, obs1169, dataM1, ylab="density", main = "Posterior density of M1")
 dev.off()
-M2<-  rouxN10000$param$M2[modindex == "AM3"]
-dataM2 <- data.frame(M2, sumstatN10000)
+M2<-  rf6PAUCAMULTI$param$M2[modindex == "AM3"]
+dataM2 <- data.frame(M2, sumstat6PAUCAMULTI)
 dataM2   <-dataM2[120001:130000,]
 model.rf.M2<- regAbcrf(M2~., dataM2, ntree=500)
 plot(model.rf.M2)
 pdf(file="posterieurprobaTS_AM")
-densityPlot(model.rf.M2, obs1209, dataM2, ylab="density", main = "Posterior density of M2")
+densityPlot(model.rf.M2, obs1169, dataM2, ylab="density", main = "Posterior density of M2")
 dev.off()
 ####TAM
-TAM <-  rouxN10000$param$Tam[modindex == "AM3"]
-dataTAM <- data.frame(TAM, sumstatN10000)
+TAM <-  rf6PAUCAMULTI$param$Tam[modindex == "AM3"]
+dataTAM <- data.frame(TAM, sumstat6PAUCAMULTI)
 dataTAM  <-dataTAM[120001:130000,]
 model.rf.TAM <- regAbcrf(TAM~., dataTAM, ntree=500)
 model.rf.TAM
 plot(model.rf.TAM)
 pdf(file="posterieurprobaTS_AM")
-densityPlot(model.rf.TAM, obs1209, dataTS, ylab="density", main = "Posterior density of TAM")
+densityPlot(model.rf.TAM, obs1169, dataTS, ylab="density", main = "Posterior density of TAM")
 dev.off()
 ####REGRESSION
 ####classification par regression paramtre explorer TS
@@ -202,12 +202,12 @@ plot(errorOOB)
 plot(x = model.rf.TS, n.var = 25)
 
 ###prediction
-pred.obsTS <- predict(object = model.rf.TS, obs = obs1209,training = dataTS, quantiles = c(0.025,0.975),paral = TRUE)
-pred.obsTam <- predict(object = model.rf.TAM, obs = obs1209,training = dataTAM, quantiles = c(0.025,0.975),paral = TRUE)
-pred.obsM1 <- predict(object = model.rf.M1, obs = obs1209,training = dataM1, quantiles = c(0.025,0.975),paral = TRUE)
-pred.obsM2 <- predict(object = model.rf.M2, obs = obs1209,training = dataM1, quantiles = c(0.025,0.975),paral = TRUE)
-pred.obsN1 <- predict(object = model.rf.N1, obs = obs1209,training = dataN1, quantiles = c(0.025,0.975),paral = TRUE)
-pred.obsN2 <- predict(object = model.rf.N2, obs = obs1209,training = dataN2, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsTS <- predict(object = model.rf.TS, obs = obs1169,training = dataTS, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsTam <- predict(object = model.rf.TAM, obs = obs1169,training = dataTAM, quantiles = c(0.025,0.975),paral = TRUE)
+  pred.obsM1 <- predict(object = model.rf.M1, obs = obs1169,training = dataM1, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsM2 <- predict(object = model.rf.M2, obs = obs1169,training = dataM1, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsN1 <- predict(object = model.rf.N1, obs = obs1169,training = dataN1, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsN2 <- predict(object = model.rf.N2, obs = obs1169,training = dataN2, quantiles = c(0.025,0.975),paral = TRUE)
 # The 2.5 and 97.5 order quantiles are computed by specifying
 # quantiles = c(0.025,0.975).
 #Posterior mean can be retrieved by
