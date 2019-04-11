@@ -1,0 +1,69 @@
+---
+title: "Priors_SC"
+author: "karine Durand"
+date: "24 octobre 2018"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/Priors_SC")
+```
+
+## Générer des paramètres (Priors) 
+
+Ce script permet de générer des priors pour le modèle Démographique SC selon des distributions uniforme ou log-uniforme 
+
+```{r cars}
+library(stats)
+library("KScorrect", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.3")
+######partie locus 
+#variables locus
+#-L=taille du gene
+#-t=theta
+#-r=rho
+#-delta=taille du track recombinant
+#boucle de 1000000 iterations(1000000 tirage demographique)
+demo<-NULL
+locus<-NULL
+tbs<-NULL
+#####TIRER un prior locus dans une distribution uniforme de bornes 
+#L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/1368oRTHOLOGUES_summarystats/lenght")#bound_taille du gene[100-2500]
+t<-runif(1,1E-11, 0.001 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+r<-runif(1,0,0.0001)##bound_rho=[0,0.0006]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+delta<-round(runif(1,10, 1000))#bound=[10-1000]
+#print(L,t,r,delta)
+m_locus=matrix(c(t,r,delta),ncol=3)
+m_locus=as.data.frame(m_locus)
+
+
+for (i in 1:10000){#tirage des priors demographiques
+  #variables demographique modéle SC
+  ##Param_demo (7) =  Ts,  N1,  N2,M12, M21, Tsc, T1, 
+  Ts<-rlunif(1,100,1E+8)#bound=[1,100,1E+8]
+  #N1<-rlunif(1,100,1E+6)#bound=[100,1E+6]
+  N2<-rlunif(1,1E-3,1E+3)#bound=[100,1E+6]
+  Na<-rlunif(1,100,1E+6)#Bound=[100,1E+6]
+  M12<-runif(1,0.01,30)#bound=[0.01-30]
+  M21<-runif(1,0.01,30)#bound=[0.01-30]
+  Tsc<-rlunif(1,10,Ts)#bound=[0-100]borne sup <Ts
+  TS2=Ts+(Ts/1E+6)
+  #print( Ts,  N1, N2,  M12, M21, Tsc)
+  m_demo=matrix(c(Ts,N2,Na,M12,M21,Tsc,TS2),ncol=7)
+  m_demo=as.data.frame(m_demo)
+  locus<-cbind(m_locus,m_demo)
+    path <- "/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/Priors_SC_10000/PriorsSC"
+    write.table(locus,file= paste(path,i, sep="-"),col.names=FALSE,row.names =FALSE)
+}
+```
+
+## Distribution des Priors 
+
+
+
+```{r pressure, echo=F}
+head(locus)
+```
+

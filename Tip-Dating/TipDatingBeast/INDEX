@@ -1,0 +1,21 @@
+Flu_BEAST_18            Example BEAST 1 input file
+Flu_BEAST_18.clusters.Flu.csv
+                        Cluster structure example input file for the
+                        RandomCluster function
+Flu_BEAST_232           Example BEAST 2 input file
+Flu_BEAST_232.clusters.Flu.csv
+                        Cluster structure example input file for the
+                        RandomCluster function
+ListTaxa                List taxa names present in the BEAST input file
+PlotDRT                 List taxa names present in the BEAST input file
+PlotLOOCV               List taxa names present in the BEAST input file
+RandomCluster           randomize dates among tips in the BEAST input
+                        file
+RandomDates             randomize dates among tips in the BEAST input
+                        file
+TaxaOut                 generates input files for leave-one-out
+                        analyses in BEAST
+TaxonOut                single Taxon out input file for leave-one-out
+                        analysis in BEAST
+TipDatingBeast-package
+                        Tip dating of phylogenetic trees with BEAST

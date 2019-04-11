@@ -11,7 +11,9 @@ output: html_document
 library(abcrf) # To load the package.
 library(readr)
 library("plyr", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.4")
+library(ggplot2)
 source("formules/rbind.na.R")
+source("formules/f.R")
 ```
 
 ## Reading data: option 2 - using a.txtfile
@@ -58,14 +60,20 @@ AM2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_1
 AM3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhomo/ABCstat.txt",  col_names = T)
 AM4 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhetero/ABCstat.txt",  col_names = T)
 #MISSING DATA
-SINhomo<-SINhomo[1:986,]
-SC1<-SC1[1:986,]
-IM1<-IM1[1:986,]
-AM1<-AM1[1:986,]
-paramSIhomo<-paramSIhomo[1:986,]
-paramAM1<-paramAM1[1:986,]
-paramIM1<-paramIM1[1:986,]
-paramSC1<-paramSC1[1:986,]
+SI1<-SI1[,2:42]
+SI2<-SI2[,2:42]
+SC1<-SC1[,2:42]
+SC2<-SC2[,2:42]
+SC3<-SC3[,2:42]
+SC4<-SC4[,2:42]
+IM1<-IM1[,2:42]
+IM2<-IM2[,2:42]
+IM3<-IM3[,2:42]
+IM4<-IM4[,2:42]
+AM1<-AM1[,2:42]
+AM2<-AM2[,2:42]
+AM3<-AM3[,2:42]
+AM4<-AM4[,2:42]
 
 
 SI1 <- apply(SI1 , 2, f)
@@ -107,8 +115,17 @@ View(dfsumsta)
 #n try = k/3 k nombre de summary stats =variable 42 ntry=14
 paucaCVCMULTI <- list(modindex=modindex,param=dfparam, sumsta=dfsumsta)
 datapaucaCVCMULTI <- data.frame(modindex, sumstat13paucamulti)
-model.paucaCVCMULTI<- abcrf(modindex~., data=datapaucaCVCMULTI ,ntree=500,paral = TRUE)
+##avec une foret de 10000 arbres
+model.paucaCVCMULTI<- abcrf(modindex~., data=datapaucaCVCMULTI ,ntree=600,paral = TRUE)
 predict(model.paucaCVCMULTI, obs997, datapaucaCVCMULTI, ntree=500)
+
+####VARAIANCE DES SUMMARY STATS
+datapaucaCVCMULTI$corr_pi
+ggplot(datapaucaCVCMULTI, aes(x=modindex, y=corr_pi)) + 
+  geom_boxplot()
+ggplot(datapaucaCVCMULTI, aes(x=modindex, y=bialsites_std)) + 
+  geom_boxplot()
+
 
 ```
 
@@ -118,8 +135,15 @@ Confusion matrix:
 
 ```{r pressure}
 model.paucaCVCMULTI
-
-
+variableImpPlot(model.paucaCVCMULTI)
+###courbe d'erreur en fonction du nombre d'arbre
+err.rf <- err.abcrf(model.paucaCVCMULTI, datapaucaCVCMULTI)
+err.rf <- err.abcrf(model.paucaCVCMULTI, datapaucaCVCMULTI_SI)
+err.SI2 <- err.abcrf(model.paucaCVCMULTI, datapaucaCVCMULTI[20001:30000,])
+err.IM1 <- err.abcrf(model.paucaCVCMULTI, datapaucaCVCMULTI[30001:40000,])
+err.sc1 <- err.abcrf(model.paucaCVCMULTI, datapaucaCVCMULTI[60001:70000,])
+err.AM1 <- err.abcrf(model.paucaCVCMULTI, datapaucaCVCMULTI[100001:120000,])
+err.AM4 <- err.abcrf(model.paucaCVCMULTI, datapaucaCVCMULTI[130001:140000,])
 #aec les data obs
 plot(model.paucaCVCMULTI, datapaucaCVCMULTI, obs=obs997[1,])
 
@@ -127,6 +151,9 @@ plot(model.paucaCVCMULTI, datapaucaCVCMULTI, obs=obs997[1,])
 pred.obsPoi <- predict(object = model.poi, obs = obs997,
 training = data)
 predict(model.paucaCVCMULTI, obs997, datapaucaCVCMULTI, ntree=500)
+#Graphical representations to access the performance of the method
+errorOOB <- err.regAbcrf(object = model.paucaCVCMULTI , training = datapaucaCVCMULTI,paral = TRUE)
+plot(errorOOB)
 
 ```
 #####################  Inference des parametres 
@@ -135,10 +162,17 @@ Given a reg-ABC-RF object and a new value of the summary statistics, densityPlot
 corresponding posterior density plot of the parameter, as well as the prior (in grey)
 
 ```{r}
+
+
 N1 <- paucaCVCMULTI$param$N1[modindex == "AM4"]
 dataN1 <- data.frame(N1, sumstat13paucamulti)
 dataN1 <-dataN1[130001:140000,]
 model.rf.N1 <- regAbcrf(N1~., dataN1, ntree=500)
+errorOOB <- err.regAbcrf(object = model.rf.N1, training = dataN1,paral = TRUE)
+res <- predictOOB(model.rf.N1, dataN1)
+plot(x = model.rf.N1, n.var = 25)
+
+
 plot(model.rf.N1)
 pdf(file="posterieurprobaTS_AM1")
 densityPlot(model.rf.N1, obs997, dataN1, ylab="density", main = "Posterior density of N1")
@@ -164,9 +198,10 @@ dev.off()
 M1<- paucaCVCMULTI$param$M1[modindex == "AM4"]
 dataM1 <- data.frame(M1, sumstat13paucamulti)
 dataM1   <-dataM1[130001:140000,]
-model.rf.M1<- regAbcrf(M1~., dataM1, ntree=500)
-model.rf.TM1
-plot(model.rf.TM1)
+model.rf.M1<- regAbcrf(M1~., dataM1, ntree=600)
+model.rf.M1
+plot(model.rf.M1)
+errorOOB <- err.regAbcrf(object = model.rf.N1, training = dataN1,paral = TRUE)
 pdf(file="posterieurprobaTS_AM")
 densityPlot(model.rf.M1, obs997, dataM1, ylab="density", main = "Posterior density of M1")
 dev.off()

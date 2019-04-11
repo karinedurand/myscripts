@@ -1,0 +1,4 @@
+"Taxon not overlapping with estimated 95% HPD (position, name)"
+"6","VIETNAM_3062_2004."
+"10","MALLARD_VIETNAM_16_2003."
+"11","CHICKEN_THAILAND_KANCHANABURI_CK_160_2005."
