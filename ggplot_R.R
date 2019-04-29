@@ -31,3 +31,9 @@ grid.arrange(Ap, Bp,Cp,Dp,Ep,Fp,Gp,Hp, ncol=2, nrow = 4)
 +
   geom_boxplot(aes(x=facteur, y=sf_avg))+
   geom_boxplot(aes(x=facteur, y=sf_std))
+ggplot(TAJ2, aes(x=pop, y=Dtaj, fill=pop))+ 
+         geom_violin()+ geom_boxplot(width=0.1)+scale_fill_manual(values=c("red", "purple", "blue")) + theme_classic() + geom_hline(yintercept=0, linetype="dashed", color = "black")
+ggplot(hapdiversity, aes(x=pop, y=hap.divertity.within, fill=pop))+ 
+  geom_violin()+ geom_boxplot(width=0.1)+scale_fill_manual(values=c("red", "purple", "blue")) + theme_classic() + geom_hline(yintercept=0.5, linetype="dashed", color = "black")      
+ggplot(pi, aes(x=pop, y=Pi, fill=pop))+ 
+  geom_violin(trim=T)+ geom_boxplot(width=0.1,outlier.shape = NA)+scale_fill_manual(values=c("red", "purple", "blue")) + theme_classic() + geom_hline(yintercept=0.5, linetype="dashed", color = "black")      

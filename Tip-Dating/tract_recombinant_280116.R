@@ -1,11 +1,12 @@
 #!/usr/bin/Rscript
-source("/home/dmerda/extraction_tract_recombinant/CFoutputAnalysis_Functions.R") # mettre le chemin de CFoutputAnalysis_Functions.R
-multiFasta <- readLines("/home/dmerda/extraction_tract_recombinant/extraction_mauve/align_clonalframeML.xmfa") # mettre le chemin de ton xmfa
+source("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/myscripts/Tip-Dating/CFoutputAnalysis_Functions.R") # mettre le chemin de CFoutputAnalysis_Functions.R
+multiFasta <- readLines("/home/kadurand/partage_windows/Xylella/analyses_genomiques/Tip-dating/clonalframe/parsnpcut.xmfa") # mettre le chemin de ton xmfa
 alignResults <- construct.alignment(multiFasta)
 alignment <- alignResults$alignment
 gap <- alignResults$gap
 blocksPos <- alignResults$blocksPos
-outputName <- "/home/dmerda/extraction_tract_recombinant/extraction_mauve/result1ABmauve_111215" # mettre le chemin de l'output CF
+outputName <- "/home/kadurand/partage_windows/Xylella/analyses_genomiques/Tip-dating/clonalframe/resultpaucamulti1" # mettre le chemin de l'output CF
+output <- scan(file = outputName, what = "")
 results <- extract.info(output, gap = gap, thetaFixed = TRUE, burnin = 5e+04)
 strainsNames <- results$strainsNames
 consTree <- results$consTree
