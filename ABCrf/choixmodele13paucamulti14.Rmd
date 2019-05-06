@@ -27,117 +27,120 @@ first row is the column labels. The field separator character being a white spac
 
 ```{r cars}
 ###ormule#############
-paramSI1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhomo/priorfile", col_names = T)
-#paramSI1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhomo_asym/priorfile", col_names = T)
-paramSI2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhetero/priorfile", col_names = T)
-#paramSI2asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhetero_asym/priorfile", col_names = T)
-paramIM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhomo/priorfile", col_names = T)
-#paramIM1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_asym/priorfile", col_names = T)
+#paramSI1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhomo/priorfile", col_names = T)
+paramSI1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhomo_asym/priorfile", col_names = T)
+#paramSI2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhetero/priorfile", col_names = T)
+paramSI2asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhetero_asym/priorfile", col_names = T)
+#paramIM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhomo/priorfile", col_names = T)
+paramIM1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_asym/priorfile", col_names = T)
 #paramIM2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhetero/priorfile", col_names = T)
-paramIM3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhomo/priorfile", col_names = T)
-#paramIM3asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_asym/priorfile", col_names = T)
+#paramIM3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhomo/priorfile", col_names = T)
+paramIM3asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_asym/priorfile", col_names = T)
 #paramIM4<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhetero/priorfile", col_names = T)
-paramSC1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_Mhomo/priorfile", col_names = T)
-#paramSC1asym<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_asym/priorfile", col_names = T)
+#paramSC1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_Mhomo/priorfile", col_names = T)
+paramSC1asym<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_asym/priorfile", col_names = T)
 #paramSC2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_Mhetero/priorfile", col_names = T)
-paramSC3<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_Mhomo/priorfile", col_names = T)
-#paramSC3asym<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_asym/priorfile", col_names = T)
+#paramSC3<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_Mhomo/priorfile", col_names = T)
+paramSC3asym<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_asym/priorfile", col_names = T)
 #paramSC4<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_Mhetero/priorfile", col_names = T)
-paramAM1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_Mhomo/priorfile", col_names = T)
-#paramAM1asym<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_asym//priorfile", col_names = T)
+#paramAM1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_Mhomo/priorfile", col_names = T)
+paramAM1asym<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_asym//priorfile", col_names = T)
 #paramAM2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_Mhetero/priorfile", col_names = T)
-paramAM3<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhomo/priorfile", col_names = T)
-#paramAM3asym<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_asym/priorfile", col_names = T)
+#paramAM3<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhomo/priorfile", col_names = T)
+paramAM3asym<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_asym/priorfile", col_names = T)
 #paramAM4<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_multi_6paucast53/AM_Nhetero_Mhetero/priorfile", col_names = T)
 
 
-#rbind.fill(paramSI1,paramSI1asym,paramSI2,paramSI2asym,paramIM1,paramIM1asym,paramIM2,paramIM3,paramIM3asym,paramIM4,paramSC1,paramSC1asym,paramSC2,paramSC3,paramSC3asym,paramSC4,paramAM1,paramAM1asym,paramAM2,paramAM3,paramAM3asym,paramAM4)->param13paucamulti
-rbind.fill(paramSI1,paramSI2,paramIM1,paramIM3,paramSC1,paramSC3,paramAM1,paramAM3)->param13paucamulti
+rbind.fill(paramSI1,paramSI1asym,paramSI2,paramSI2asym,paramIM1,paramIM1asym,paramIM3,paramIM3asym,paramSC1,paramSC1asym,paramSC3,paramSC3asym,paramAM1,paramAM1asym,paramAM3,paramAM3asym)->param13paucamulti
+rbind.fill(paramSI1asym,paramSI2asym,paramIM1asym,paramIM3asym,paramSC1asym,paramSC3asym,paramAM1asym,paramAM3asym)->param13paucamulti
 
 #import des stats
 
 SI1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhomo/ABCstat.txt", col_names = T)
-#SI1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhomo_asym/ABCstat.txt", col_names = T)
+SI1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhomo_asym/ABCstat.txt", col_names = T)
 SI2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhetero/ABCstat.txt", col_names = T)
-#SI2asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhetero_asym/ABCstat.txt", col_names = T)
+SI2asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SI_Nhetero_asym/ABCstat.txt", col_names = T)
 SC1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_Mhomo/ABCstat.txt",  col_names = T)
-#SC1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_asym//ABCstat.txt",  col_names = T)
+SC1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_asym//ABCstat.txt",  col_names = T)
 #SC2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhomo_Mhetero/ABCstat.txt",  col_names = T)
 SC3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_Mhomo/ABCstat.txt",  col_names = T)
-#  SC3asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_asym//ABCstat.txt",  col_names = T)
+ SC3asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_asym//ABCstat.txt",  col_names = T)
 #SC4 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/SC_Nhetero_Mhetero/ABCstat.txt",  col_names = T)
 
 IM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhomo///ABCstat.txt",  col_names = T)
-#IM1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhomo/ABCstat.txt",  col_names = T)
+IM1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhomo/ABCstat.txt",  col_names = T)
 #IM2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhomo_Mhetero/ABCstat.txt",  col_names = T)
 IM3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhomo/ABCstat.txt",  col_names = T)
-#IM3asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_asym//ABCstat.txt",  col_names = T)
+IM3asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_asym//ABCstat.txt",  col_names = T)
 #IM4 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/IM_Nhetero_Mhetero/ABCstat.txt",  col_names = T)
 
 AM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_Mhomo/ABCstat.txt",  col_names = T)
-#AM1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_asym//ABCstat.txt",  col_names = T)
+AM1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_asym//ABCstat.txt",  col_names = T)
 #AM2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhomo_Mhetero/ABCstat.txt",  col_names = T)
 AM3 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhomo/ABCstat.txt",  col_names = T)
-#AM3asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_asym/ABCstat.txt",  col_names = T)
+AM3asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_asym/ABCstat.txt",  col_names = T)
 #AM4 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_13paucamulti/AM_Nhetero_Mhetero/ABCstat.txt",  col_names = T)
 #MISSING DATA
 SI1<-SI1[,2:42]
-#SI1asym<-SI1asym[,2:42]
+SI1asym<-SI1asym[,2:42]
 SI2<-SI2[,2:42]
-#SI2asym<-SI2asym[,2:42]
+SI2asym<-SI2asym[,2:42]
 SC1<-SC1[,2:42]
-#SC1asym<-SC1asym[,2:42]
+SC1asym<-SC1asym[,2:42]
 #SC2<-SC2[,2:42]
 SC3<-SC3[,2:42]
-#SC3asym<-SC3asym[,2:42]
+SC3asym<-SC3asym[,2:42]
 #SC4<-SC4[,2:42]
 IM1<-IM1[,2:42]
-#IM1asym<-IM1asym[,2:42]
+IM1asym<-IM1asym[,2:42]
 #IM2<-IM2[,2:42]
 IM3<-IM3[,2:42]
-#IM3asym<-IM3asym[,2:42]
+IM3asym<-IM3asym[,2:42]
 #IM4<-IM4[,2:42]
 AM1<-AM1[,2:42]
-#AM1asym<-AM1asym[,2:42]
+AM1asym<-AM1asym[,2:42]
 #AM2<-AM2[,2:42]
 AM3<-AM3[,2:42]
-#AM3asym<-AM3asym[,2:42]
+AM3asym<-AM3asym[,2:42]
 #AM4<-AM4[,2:42]
-
+obs997<-obs997[,2:42]
+obs997 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/obs/997_ortho13paucamulti_clean/997obs.txt",  col_names = T)
 
 SI1 <- apply(SI1 , 2, f)
-#SI1asym <- apply(SI1asym , 2, f)
+SI1asym <- apply(SI1asym , 2, f)
 SI2  <- apply(SI2  , 2, f)
-#SI2asym  <- apply(SI2asym  , 2, f)
+SI2asym  <- apply(SI2asym  , 2, f)
 SC1  <- apply(SC1  , 2, f)
-#SC1asym  <- apply(SC1asym  , 2, f)
+SC1asym  <- apply(SC1asym  , 2, f)
 #SC2  <- apply(SC2  , 2, f)
 SC3  <- apply(SC3  , 2, f)
-#SC3asym  <- apply(SC3asym  , 2, f)
+SC3asym  <- apply(SC3asym  , 2, f)
 #SC4  <- apply(SC4  , 2, f)
 IM1  <- apply(IM1  , 2, f)
-#IM1asym  <- apply(IM1asym  , 2, f)
+IM1asym  <- apply(IM1asym  , 2, f)
 #IM2  <- apply(IM2  , 2, f)
 IM3  <- apply(IM3  , 2, f)
-#IM3asym  <- apply(IM3asym  , 2, f)
+IM3asym  <- apply(IM3asym  , 2, f)
 #IM4  <- apply(IM4  , 2, f)
 AM1  <- apply(AM1  , 2, f)
-#AM1asym  <- apply(AM1asym  , 2, f)
+AM1asym  <- apply(AM1asym  , 2, f)
 #AM2  <- apply(AM2  , 2, f)
 AM3  <- apply(AM3  , 2, f)
-#AM3asym  <- apply(AM3asym  , 2, f)
+AM3asym  <- apply(AM3asym  , 2, f)
 #AM4  <- apply(AM4  , 2, f)
 
-#rbind.na(SI1,SI1asym,SI2 ,SI2asym,IM1,IM1asym,IM2,IM3,IM3asym ,IM4,SC1,SC1asym ,SC2,SC3,SC3asym,SC4,AM1,AM1asym ,AM2,AM3,AM3asym ,AM4)->sumstat13paucamulti
-rbind.na(SI1,SI2 ,IM1,IM3,SC1,SC3,AM1,AM3)->sumstat13paucamulti
-obs997 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/obs/997_ortho13paucamulti_clean/997obs.txt",  col_names = T)
+rbind.na(SI1,SI1asym,SI2 ,SI2asym, IM1,IM1asym,IM3,IM3asym ,SC1,SC1asym ,SC3,SC3asym,AM1,AM1asym ,AM3,AM3asym )->sumstat13paucamulti
+rbind.na(SI1asym,SI2asym ,IM1asym,IM3asym,SC1asym,SC3asym,AM1asym,AM3asym)->sumstat13paucamulti
+
 
 
 
 #param<- read_delim("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/paramtot",";", escape_double = FALSE,  trim_ws = #TRUE)
 #sumsta <- read_delim("~/partage_windows/Xylella/analyses_genomiques/ABC/abcrf/sumsta",  ";", escape_double = FALSE, trim_ws = TRUE)
 
-modindex <- as.factor(c(rep("SIhomo",10000),c(rep("SIhomo_asym",10000),rep("SIhetero",10000),rep("SIhetero_asym",10000),rep("IM1",10000),rep("IM1_asym",10000),rep("IM2",10000),rep("IM3",10000),rep("IM3_asym",10000),rep("IM4",10000), rep("SC1",10000),rep("SC1_asym",10000), rep("SC2",10000), rep("SC3",10000), rep("SC3_asym",10000), rep("SC4",10000),rep("AM1",10000),rep("AM1_asym",10000),rep("AM2",10000),rep("AM3",10000),rep("AM3_asym",10000),rep("AM4",10000))))
+modindex <- as.factor(c(rep("SIhomo",10000),c(rep("SIhomo_asym",10000),rep("SIhetero",10000),rep("SI3_asym",10000),rep("IM1",10000),rep("IM1_asym",10000),rep("IM3",10000),rep("IM3_asym",10000), rep("SC1",10000),rep("SC1_asym",10000), rep("SC3",10000), rep("SC3_asym",10000),rep("AM1",10000),rep("AM1_asym",10000),rep("AM3",10000),rep("AM3_asym",10000))))
+
+modindex <- as.factor(c(rep("SIhomo",10000),c(rep("SI1_asym",10000),rep("SI3",10000),rep("SI3_asym",10000),rep("IM1",10000),rep("IM1_asym",10000),rep("IM2",10000),rep("IM3",10000),rep("IM3_asym",10000),rep("IM4",10000), rep("SC1",10000),rep("SC1_asym",10000), rep("SC2",10000), rep("SC3",10000), rep("SC3_asym",10000), rep("SC4",10000),rep("AM1",10000),rep("AM1_asym",10000),rep("AM2",10000),rep("AM3",10000),rep("AM3_asym",10000),rep("AM4",10000))))
 modindex <- as.factor(c(rep("SIhomo",10000),rep("SIhetero",10000),rep("IM1",10000),rep("IM3",10000), rep("SC1",10000), rep("SC3",10000), rep("AM1",10000),rep("AM3",10000)))
 
 
@@ -156,7 +159,7 @@ datapaucaCVCMULTI <- data.frame(modindex, sumstat13paucamulti)
 ##avec une foret de 10000 arbres
 model.paucaCVCMULTI<- abcrf(modindex~., data=datapaucaCVCMULTI ,ntree=500,paral = TRUE)
 predict(model.paucaCVCMULTI, obs997, datapaucaCVCMULTI, ntree=500)
-
+## plot du nombre d'arbres en fonction de l erreur
 err.rf <- err.abcrf(model.paucaCVCMULTI, datapaucaCVCMULTI)
 ####VARAIANCE DES SUMMARY STATS
 datapaucaCVCMULTI$corr_pi

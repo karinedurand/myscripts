@@ -33,14 +33,14 @@ locus<-NULL
 tbs<-NULL
 #####TIRER un prior locus dans une distribution uniforme de bornes 
 #L<-scan("/home/kadurand/partage_windows/Xylella/ana ")#bound_taille du gene[100-2500]
-L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/obs/1209_PAUCA_nonrecomb/1209lenght")#bound_taille du gene[100-2500]
+L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/obs/798_orthologues_multi19pauca/length_3pops")#bound_taille du gene[100-2500]
 #t<-runif(997, 0.081407 )#8.1407E-07 pour N0=100000
  #r<-runif(997,0.081407)#bound_rho=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
-t<-c(rep(0.00162814,1209))
-r<-c(rep(0.00162814,1209))
-nspA<-c(rep(6, 1209))
-nspB<-c(rep(13, 1209))
-nspC<-c(rep(17, 1209))
+t<-c(rep(0.00162814,798))
+r<-c(rep(0.00162814,798))
+nspA<-c(rep(17, 798))
+nspB<-c(rep(13, 798))
+nspC<-c(rep(6, 798))
 #delta<-round(runif(997,10, 1000))#bound=[10-1000]
 #print(L,t,r,delta)
 rbind(L,nspA,nspB,nspC,t*L,r*L*.039)->bpfile

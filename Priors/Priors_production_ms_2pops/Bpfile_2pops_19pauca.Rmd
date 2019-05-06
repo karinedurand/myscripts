@@ -42,12 +42,12 @@ nspA<-c(rep(13, 997))
 nspB<-c(rep(6, 997))
 #delta<-round(runif(997,10, 1000))#bound=[10-1000]
 #print(L,t,r,delta)
-rbind(L,nspA,nspB,t*L,r*L)->bpfile
+rbind(L,nspA,nspB,t*L,r*L*0.39)->bpfile
 
 
 
 path <- "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_19pauca//" 
-write.table(bpfile,file= "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_19pauca/bpfile_2pauca",col.names=FALSE,row.names =FALSE)
+write.table(bpfile,file= "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_19pauca/bpfile_2paucamod",col.names=FALSE,row.names =FALSE)
 }
 ```
 
