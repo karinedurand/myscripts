@@ -16,6 +16,6 @@ refSites <- results$refSites
 chain <- results$chain
 recomList <- construct.recombList(recEvents, refSites, blocksPos, thresholdLow = 0.5, thresholdHigh = 0.95)
 recBlocks <- construct.recBlocks(recomList, strainsNames)
-head(recBlocks)
-write.table(recBlocks, file = "/home/dmerda/extraction_tract_recombinant/extraction_mauve/tableau_position.txt") # mettre le chemin pour le fichier de sortie + mettre un nom 
-extract.tracts(alignment, recBlocks, consTree, "/home/dmerda/extraction_tract_recombinant/extraction_mauve/recombinant_tracts_mauve.fasta")  # mettre le chemin pour le fichier de sortie + mettre un nom 
+#head(recBlocks)
+write.table(recBlocks, file = "/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/myscripts/Tip-Dating/tableau_position.txt") # mettre le chemin pour le fichier de sortie + mettre un nom 
+extract.tracts(alignment, recBlocks, consTree, "/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/myscripts/Tip-Dating/recombinant_tracts_xmfa.fasta")  # mettre le chemin pour le fichier de sortie + mettre un nom 
