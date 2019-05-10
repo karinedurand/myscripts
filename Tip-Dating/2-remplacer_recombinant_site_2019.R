@@ -1,8 +1,10 @@
 
 ####### extract info from "tableau pos recombi"....
-Dir <- "/home/dmerda/Bureau/Documents/analyses_genomique/analyse_X.arboricola_sens_strict/extract_recombinant_tract/extraction_mauve"
+Dir <- "/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/myscripts/Tip-Dating"
 setwd(Dir)
-info <- scan("position_groupeA.txt",sep="\n",what="raw")
+#  faire :   grep ">" recombinant_tracts_xmfa.fasta > pos.txt
+info <- scan("pos.txt",sep="\n",what="raw")
+#
 trim_names <- function(X,sep="_",pos=1,fix=TRUE){strsplit(X,split=sep,fixed=fix)[[1]][pos]}
 
 cluster <- gsub(">cluster","",as.character(sapply(info,trim_names,pos=1,sep="|",fix=TRUE)))
@@ -16,7 +18,7 @@ id <- as.character(unique(info2[,4]))
 
 #### split sequence
 
-test <- scan("align_clonalframeML.xmfa",what="raw",sep="\n")
+test <- scan("parsnpcut.xmfa",what="raw",sep="\n")
 pos <- sort(c(grep("=",test),grep(">",test)))
 
 # this fct writes a fasta file for each strain by concatenating each cluster....
@@ -61,4 +63,5 @@ for(i in 1:length(id)){
     s[a:b] <- "R"
   }
   write_fasta(s,id[i],paste(id[i],"_MODIFIED.fasta",sep=""))
+}
 }

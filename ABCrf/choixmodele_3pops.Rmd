@@ -1,0 +1,253 @@
+---
+title: "ABCrf_3pops"
+author: "karine Durand"
+date: "7 mai 2019"
+output: html_document
+---
+---
+title: "Bpfile_2pops_pacaCVCST53"
+author: "karine Durand"
+date: "18 mars 2019"
+
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+```{r setup, include=FALSE}
+#Installing and loading the R package abcrf
+#install.packages("abcrf") # To install the abcrf package (version 1.6)
+library(abcrf) # To load the package.
+library(readr)
+library("plyr", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.4")
+f <- function(x){
+  m <- mean(x, na.rm = TRUE)
+  x[is.na(x)] <- m
+  x
+}
+```
+
+## Reading data: option 2 - using a.txtfile
+
+corresponding to the scenario indices,p columns of parameters and k columns of summary statistics, the
+first row is the column labels. The field separator character being a white space.
+
+
+```{r cars}
+###ormule#############
+paramSI1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POP_SI_homo/priorfile", col_names = T)
+#paramSI1asym <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_multi_6paucast53/SI_Nhomo_asym/priorfile", col_names = T)
+
+paramAM1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POP_AM_homo/priorfile", col_names = T)
+paramGhost1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POP_ghost_homoCASA/priorfile", col_names = T)
+paramGhost2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POP_ghost_homoSACA//priorfile", col_names = T)
+
+#paramAM2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_multi_6paucast53/AM_Nhomo_Mhetero/priorfile", col_names = T)
+paramAdmix1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POPS_admixCA/priorfile", col_names = T)
+paramAdmix2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POPS_admixSA//priorfile", col_names = T)
+#paramAM3asym<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_multi_6paucast53/AM_Nhetero_asym//priorfile", col_names = T)
+#paramAM4<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen_multi_6paucast53/AM_Nhetero_Mhetero/priorfile", col_names = T)
+
+rbind.fill(paramSI1,paramAM1,paramGhost1,paramGhost2,paramAdmix1,paramAdmix2)->param
+
+
+#import des stats
+
+SI1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POP_SI_homo/ABCstat.txt", col_names = T)
+
+
+AM1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POP_AM_homo/ABCstat.txt",  col_names = T)
+Ghost1<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POP_ghost_homoCASA/ABCstat.txt",  col_names = T)
+Ghost2<- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POP_ghost_homoSACA//ABCstat.txt",  col_names = T)
+ADMIX1 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POPS_admixCA/ABCstat.txt",  col_names = T)
+ADMIX2 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/priorgen3pops/3POPS_admixSA/ABCstat.txt",  col_names = T)
+
+#MISSING DATA
+obs798 <- read_table2("~/partage_windows/Xylella/analyses_genomiques/ABC/obs/798_orthologues_multi19pauca/summaryobs_3pops",  col_names = T)
+
+
+
+obs798<-obs798[,-c(2,64:65,100,101,136:137)]
+
+nlinesFul=min(nrow(SI1),nrow(AM1), nrow(Ghost1),nrow(Ghost2) ,nrow(ADMIX1),nrow(ADMIX2))
+SI1=SI1[c(1:nlinesFul),-c(2,64:65,100,101,136:137)]
+AM1=AM1[c(1:nlinesFul),-c(2,64:65,100,101,136:137)]
+Ghost1=Ghost1[c(1:nlinesFul),-c(2,64:65,100,101,136:137)]
+Ghost2=Ghost2[c(1:nlinesFul),-c(2,64:65,100,101,136:137)]
+ADMIX1=ADMIX1[c(1:nlinesFul),-c(2,64:65,100,101,136:137)]
+ADMIX2=ADMIX2[c(1:nlinesFul),-c(2,64:65,100,101,136:137)]
+
+SI1 <- apply(SI1 , 2, f)
+AM1  <- apply(AM1  , 2, f)
+Ghost1 <- apply(Ghost1  , 2, f)
+Ghost2 <- apply(Ghost2  , 2, f)
+ADMIX1 <- apply(ADMIX1   , 2, f)
+ADMIX2 <- apply(ADMIX2   , 2, f)
+
+
+rbind.na(SI1,AM1,Ghost1,Ghost2,ADMIX1,ADMIX2)->sumstat
+
+
+
+modindex <- as.factor(c(rep("SI1",10000),rep("AM1",10000) , rep("Ghost1",10000), rep("Ghost2",10000),rep("ADMIX1",10000),rep("ADMIX2",10000)))
+
+
+
+#dfparam = as.data.frame(param)
+
+dfparam=as.data.frame(param)
+View(dfparam)
+index1 <-as.factor(modindex) # To store the model 1 indexes.
+
+#dfsumsta = as.data.frame(sumsta)
+dfsumsta = as.data.frame(sumstat)
+View(dfsumsta)
+#n try = k/3 k nombre de summary stats =variable 42 ntry=14
+rf3POPS<- list(modindex=modindex,param=dfparam, sumsta=dfsumsta)
+data3POPS <- data.frame(modindex, sumstat)
+model.rf3POPSI<- abcrf(modindex~., data=data3POPS ,ntree=500,paral = TRUE)
+err.rf <- err.abcrf(model.rf3POPSI,data3POPS)
+
+```
+
+## PLOTS 
+
+Confusion matrix:
+
+```{r pressure}
+model.rf3POPSI
+
+
+#aec les data obs
+plot(model.rf3POPSI, data3POPS, obs=obs798[1,])
+predict(model.rf3POPSI, obs798, data3POPS, ntree=500)
+
+
+```
+#####################  Inference des parametres 
+# inference d'un parametre
+Given a reg-ABC-RF object and a new value of the summary statistics, densityPlot gives the
+corresponding posterior density plot of the parameter, as well as the prior (in grey)
+
+```{r}
+N1 <- rf3POPS$param$N1[modindex == "ADMIX"]
+dataN1 <- data.frame(N1, sumstat)
+dataN1 <-dataN1[30001:40000,]
+model.rf.N1 <- regAbcrf(N1~., dataN1, ntree=500)
+plot(model.rf.N1)
+pdf(file="posterieurprobaTS_AM1")
+densityPlot(model.rf.N1, obs798, dataN1, ylab="density", main = "Posterior density of N1")
+dev.off()
+N2 <- rf3POPS$param$N2[modindex == "ADMIX"]
+dataN2 <- data.frame(N2, sumstat)
+dataN2 <-dataN2[30001:40000,]
+model.rf.N2 <- regAbcrf(N2~., dataN2, ntree=500)
+plot(model.rf.N2)
+pdf(file="posterieurprobaN2_AM1")
+densityPlot(model.rf.N2, obs798, dataN2, ylab="density", main = "Posterior density of N2")
+dev.off()
+Na1 <- rf3POPS$param$NA1[modindex == "ADMIX"]
+dataNa <- data.frame(Na1, sumstat)
+dataNa1 <-dataNa1[30001:40000,]
+model.rf.Na <- regAbcrf(Na1~., dataNa1, ntree=500)
+
+densityPlot(model.rf.Na, obs1169, dataNa, ylab="density", main = "Posterior density of Na")
+
+####
+TS <-  rf3POPS$param$Tsplit1[modindex == "ADMIX"]
+dataTS <- data.frame(TS, sumstat)
+dataTS  <-dataTS[30001,40000]
+model.rf.TS <- regAbcrf(TS~., dataTS, ntree=500)
+model.rf.TSC
+densityPlot(model.rf.TS, obs798, dataTS, ylab="density", main = "Posterior density of TS1")
+
+##
+M1<-   rf3POPS$param$M1[modindex == "ADMIX"]
+dataM1 <- data.frame(M1, sumstat)
+dataM1   <-dataM1[30001:40000,]
+model.rf.M1<- regAbcrf(M1~., dataM1, ntree=500)
+model.rf.TM1
+plot(model.rf.TM1)
+pdf(file="posterieurprobaTS_AM")
+densityPlot(model.rf.M1, obs1169, dataM1, ylab="density", main = "Posterior density of M1")
+dev.off()
+M2<-  rf6PAUCAMULTI$param$M2[modindex == "AM3"]
+dataM2 <- data.frame(M2, sumstat6PAUCAMULTI)
+dataM2   <-dataM2[70001:80000,]
+model.rf.M2<- regAbcrf(M2~., dataM2, ntree=500)
+plot(model.rf.M2)
+pdf(file="posterieurprobaTS_AM")
+densityPlot(model.rf.M2, obs1169, dataM2, ylab="density", main = "Posterior density of M2")
+dev.off()
+M23<-  rf3POPS$param$M23[modindex == "ADMIX"]
+dataM23 <- data.frame(M23, sumstat)
+dataM23   <-dataM23[30001:40000,]
+model.rf.M23<- regAbcrf(M23~., dataM23, ntree=500)
+densityPlot(model.rf.M23, obs798, dataM23, ylab="density", main = "Posterior density of M23")
+M32<-  rf3POPS$param$M32[modindex == "ADMIX"]
+dataM32 <- data.frame(M32, sumstat)
+dataM32   <-dataM32[30001:40000,]
+model.rf.M32<- regAbcrf(M32~., dataM32, ntree=500)
+densityPlot(model.rf.M32, obs798, dataM32, ylab="density", main = "Posterior density of M32")
+
+####TAM
+TAM <-  rf6PAUCAMULTI$param$Tam[modindex == "AM3"]
+dataTAM <- data.frame(TAM, sumstat6PAUCAMULTI)
+dataTAM  <-dataTAM[70001:80000,]
+model.rf.TAM <- regAbcrf(TAM~., dataTAM, ntree=500)
+model.rf.TAM
+plot(model.rf.TAM)
+pdf(file="posterieurprobaTS_AM")
+densityPlot(model.rf.TAM, obs1169, dataTS, ylab="density", main = "Posterior density of TAM")
+dev.off()
+####REGRESSION
+####classification par regression paramtre explorer TS
+#The used formula means that we are interested in explaining the parameter
+# TS thanks to all the remaining columns of dataTS
+TS <-  rouxN10000$param$Tsplit[modindex == "AM1"]
+dataTS <- data.frame(TS, sumstatN10000)
+dataTS  <-dataTS[70001:80000,]
+model.rf.TS <- regAbcrf(TS~., dataTS, ntree=500,min.node.size = 5, paral = TRUE, mtry =14)
+model.rf.TS
+
+#Graphical representations to access the performance of the method
+errorOOB <- err.regAbcrf(object = model.rf.TS , training = dataTS,paral = TRUE)
+plot(errorOOB)
+
+# The contributions of the 25 most important summary statistics are
+# represented
+plot(x = model.rf.TS, n.var = 25)
+
+###prediction
+pred.obsTS <- predict(object = model.rf.TS, obs = obs1169,training = dataTS, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsTam <- predict(object = model.rf.TAM, obs = obs1169,training = dataTAM, quantiles = c(0.025,0.975),paral = TRUE)
+  pred.obsM1 <- predict(object = model.rf.M1, obs = obs1169,training = dataM1, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsM2 <- predict(object = model.rf.M2, obs = obs1169,training = dataM1, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsN1 <- predict(object = model.rf.N1, obs = obs1169,training = dataN1, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsN2 <- predict(object = model.rf.N2, obs = obs1169,training = dataN2, quantiles = c(0.025,0.975),paral = TRUE)
+pred.obsNa <- predict(object = model.rf.Na, obs = obs1169,training = dataNa, quantiles = c(0.025,0.975),paral = TRUE)
+# The 2.5 and 97.5 order quantiles are computed by specifying
+# quantiles = c(0.025,0.975).
+#Posterior mean can be retrieved by
+pred.obsTS$expectation
+pred.obsTS$quantiles
+pred.obsTS$variance
+pred.obsTam$expectation
+pred.obsTam$quantiles
+pred.obsTam$variance
+pred.obsM1$expectation
+pred.obsM1$quantiles
+pred.obsM1$variance
+pred.obsM2$expectation
+pred.obsM2$quantiles
+pred.obsM2$variance
+pred.obsN1$expectation
+pred.obsN1$quantiles
+pred.obsN1$variance
+pred.obsN2$expectation
+pred.obsN2$quantiles
+pred.obsN2$variance
+pred.obsNa$expectation
+pred.obsNa$quantiles
+pred.obsNa$variance

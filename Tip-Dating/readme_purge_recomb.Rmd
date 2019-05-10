@@ -1,0 +1,26 @@
+---
+title: "readme_purge_recomb.Rmd"
+author: "karine Durand"
+date: "9 mai 2019"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Charger le script 1-tract_recombinant_2019.R
+Ce script utilise en entrée un l'alignement utilisé dans ClonalFrame, et le fichier out de clonal frame :resultpaucamulti1 pour générer un tableau tableau_position.txt ("cluster" "start" "end" "size" "node")  et recombinant_tracts.fasta (>cluster29|31517:32345|strain15 + seq)  
+Ne pas oublier d'indiquer le chemin avec source pour charger le script CFoutputAnalysis_Functions.R
+
+
+##  Charger le script 2-remplacer_recombinant_site_2019.R
+
+Ce script utilise en entrée les premieres lignes > du fichier recombinant_tracts.fasta et en sortie on obtient les sequences des souches recombinantes avec les sites recombinants remplacé par des "R" =  name_MODIFIED.fasta
+
+##  Charger le script 3-SNP2019.R
+
+Remplacer les sequences des souches recombinantes dans l'alignement par les sequences name_MODIFIED.fasta, puis charger cet alignement qui comporte des "R" a la place des sites recombinants dans le script 3-SNP2019.R.
+On obtient en sortie un alignement SNP purgé des sites recombinants

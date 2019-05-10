@@ -16,6 +16,10 @@ refSites <- results$refSites
 chain <- results$chain
 recomList <- construct.recombList(recEvents, refSites, blocksPos, thresholdLow = 0.5, thresholdHigh = 0.95)
 recBlocks <- construct.recBlocks(recomList, strainsNames)
-#head(recBlocks)
-write.table(recBlocks, file = "/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/myscripts/Tip-Dating/tableau_position.txt") # mettre le chemin pour le fichier de sortie + mettre un nom 
-extract.tracts(alignment, recBlocks, consTree, "/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/myscripts/Tip-Dating/recombinant_tracts_xmfa.fasta")  # mettre le chemin pour le fichier de sortie + mettre un nom 
+head(recBlocks)
+write.table(recBlocks, file = "/home/kadurand/partage_windows/Xylella/analyses_genomiques/Tip-dating/clonalframe/tableau_position.txt") # mettre le chemin pour le fichier de sortie + mettre un nom 
+extract.tracts(alignment, recBlocks, consTree, "/home/kadurand/partage_windows/Xylella/analyses_genomiques/Tip-dating/clonalframe/recombinant_tracts.fasta")  # mettre le chemin pour le fichier de sortie + mettre un nom 
+write.phylip(alignment, consTree)
+plot(consTree)
+calcul.thetaBranch(subEvents, consTree)
+listOfOrthologousClusters <- clusters
