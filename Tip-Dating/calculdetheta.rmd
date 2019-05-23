@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r cars}
 library("ape")
 source("/home/kadurand/R/deborah/CFoutputAnalysis_Functions.R")
-alignement<-read.dna("/home/kadurand/partage_windows/Xylella/analyses_genomiques/HARVEST/HARVEST_multiplex_pauca/parsnp.fasta", format= "fasta", as.character =T)      
+alignement<-read.dna("/home/kadurand/partage_windows/Xylella/analyses_genomiques/Tip-dating/clonalframe/paucamultiP229/paucamultiP229.fasta", format= "fasta", as.character =T)      
 ThetaBoot<-calcul.thetaBoot(alignement)
 mean(ThetaBoot)
 ```

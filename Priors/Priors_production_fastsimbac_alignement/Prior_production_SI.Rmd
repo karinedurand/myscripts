@@ -32,31 +32,33 @@ demo<-NULL
 locus<-NULL
 tbs<-NULL
 #####TIRER un prior locus dans une distribution uniforme de bornes 
-#L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/1368oRTHOLOGUES_summarystats/lenght")#bound_taille du gene[100-2500]
-t<-runif(1,1E-11, 0.001 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
-r<-runif(1,0,0.0001)##bound_rho=[0,0.0006]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
-delta<-round(runif(1,10, 1000))#bound=[10-1000]
-#print(L,t,r,delta)
+#L<-scan("/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/obs/1368oRTHOLOGUES_summarystats/lenght")#bound_taille du gene[100-2500]
+t<-rep(0.00162814,10000 )#bound_theta=[0-0.0003]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+#r<-runif(1,0,0.0001)##bound_rho=[0,0.0006]bornes vrai pour 13pauca_multiplex augmenter la borne sup à 0.001]
+delta<-round(runif(10000,10, 1000))#bound=[10-1000]
+r<-rep(0.0006349746,10000)
+print(t,r,delta)
 m_locus=matrix(c(t,r,delta),ncol=3)
 m_locus=as.data.frame(m_locus)
+  Ts<-runif(10000,0,30)#bound=[1,100,1E+8]
+  N1<-runif(10000,0,25)#bound=[100,1E+6]
+  N2<-runif(10000,0,25)#bound=[100,1E+6]
+#  Na<-runif(10000,0,60)#Bound=[100,1E+6]
+#  Na<-runif(10000,0,60)#Bound=[100,1E+6]
+#  M12<-runif(10000,0,100)#bound=[0.01-30]
+ # M21<-runif(10000,0,100)#bound=[0.01-30]
+ # Tam<-runif(10000,0,Ts)#bound=[0-100]borne sup <Ts
+#for (i in 1:10000){#tirage des priors demographiques
+  #variables demographique modéle SI
+  ##Param_demo (5) = Ts  N1, N2,  M12, M21
 
-for (i in 1:10000){#tirage des priors demographiques
-#variables demographique modéle SI
-#Param_demo (3) =   Ts, N1, N2,
-  Ts<-rlunif(1,100,1E+8)#bound=[1,100,1E+8]
-  #N1<-rlunif(1,100,1E+6)#bound=[100,1E+6]
-  N2<-rlunif(1,1E-3,1E+3)#bound=[1E-3,1E+3]
-  Na<-rlunif(1,100,1E+6)#Bound=[100,1E+6]
-  TS2=Ts+(Ts/1E+6)
 
- 
-#print( N1, N2, Ts)
-m_demo=matrix(c(Ts,N2,Na,TS2),ncol=4)
+  #print( Ts , N1, N2,  M12, M21,Tam)
+m_demo=matrix(c(N1,N2,Ts),ncol=3)
 m_demo=as.data.frame(m_demo)
-locus<-cbind(m_locus,m_demo)
+locusSI<-cbind(m_locus,m_demo)
 
-path <- "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/Priors_SI_10000/priorsSI" 
-write.table(locus,file= paste(path,i, sep="-"),col.names=FALSE,row.names =FALSE)
-}
+path <- "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_alignement_13paucacvcmulti/Pr" 
+write.table(locusSI,file= "/home//kadurand/partage_windows/Xylella/analyses_genomiques/ABC/fastSimBac_linux/fastsimbac_alignement_13paucacvcmulti/locusSI",col.names=FALSE,row.names =FALSE)
 ```
 
