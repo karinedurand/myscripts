@@ -23,6 +23,7 @@ TipDatingBeast, this function should be called with the following command:
 
 ```{r cars}
 RandomDates(name="/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/myscripts/Tip-Dating/TipDatingBeast/example/Flu_BEAST_18",reps=20)
+RandomDates(name="/home/kadurand/partage_windows/Xylella/analyses_genomiques/ABC/myscripts/Tip-Dating/TipDatingBeast/example/paucamultiplex",reps=20)
 ```
 
 ## 3.3.2 The "RandomCluster" function
